@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Studay</string>
+    <string name="logo_app">Logo App</string>
+    <string name="email_email_com">email@email.com</string>
+    <string name="password_hint">•••••••••••••••</string>
+    <string name="fazer_login">Fazer Login</string>
+    <string name="nao_possui_uma_conta">Não possui uma conta?</string>
+    <string name="clique_aqui">Clique aqui</string>
+    <string name="meus_professores_favoritos">Meus professores favoritos</string>
+    <string name="frase_cadastro">Para se registrar na nossa plataforma é necessário antes selecionar abaixo qual o seu tipo de cadastro e logo após inserir os seus dados.</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string-array name="sexo">
+        <item>Selecione</item>
+        <item>Masculino</item>
+        <item>Feminino</item>
+        <item>Outros</item>
+    </string-array>
+    <string-array name="dias">
+        <item>Selecione</item>
+        <item>Domingo</item>
+        <item>Segunda-feira</item>
+        <item>Terça-feira</item>
+        <item>Quarta-feira</item>
+        <item>Quinta-feira</item>
+        <item>Sexta-feira</item>
+        <item>Sábado</item>
+    </string-array>
+    <string-array name="disciplinas">
+        <item>Selecione</item>
+        <item>Português</item>
+        <item>Matemática</item>
+        <item>Português</item>
+        <item>Matemática</item>
+        <item>Português</item>
+        <item>Matemática</item>
+        <item>Português</item>
+        <item>Matemática</item>
+        <item>Português</item>
+        <item>Matemática</item>
+        <item>Português</item>
+        <item>Matemática</item>
+        <item>Português</item>
+        <item>Matemática</item>
+        <item>Português</item>
+        <item>Matemática</item>
+        <item>adc mais pelo db</item>
+    </string-array>
+</resources>
