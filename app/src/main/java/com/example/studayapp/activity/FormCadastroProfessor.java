@@ -13,13 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.studayapp.R;
-import com.example.studayapp.classes.Professor;
+import com.example.studayapp.model.Professor;
 import com.example.studayapp.util.Mask;
 import com.example.studayapp.util.Validator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 public class FormCadastroProfessor extends AppCompatActivity {
 

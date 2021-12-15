@@ -5,10 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.studayapp.R;
-import com.example.studayapp.classes.Aluno;
+import com.example.studayapp.model.Aluno;
 
 public class TesteAluno extends AppCompatActivity {
 

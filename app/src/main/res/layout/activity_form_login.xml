@@ -1,182 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:fillViewport="true" >
+    android:fillViewport="true">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="25dp"
-    android:background="@drawable/background"
-    tools:context=".activity.FormLogin">
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="370dp"
-        android:layout_height="220dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="30dp"
-        android:src="@drawable/main"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ImageContrastCheck" />
-
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="250dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        android:contentDescription="@string/logo_app" />
-
-    <TextView
-        android:id="@+id/textViewAlertLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="E-mail ou senha incorretos!"
-        style="@style/TextViewFormLoginAlert"
-        app:layout_constraintTop_toBottomOf="@id/logo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <LinearLayout
-        android:id="@+id/formLogin"
-        android:orientation="vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:paddingBottom="15dp"
-        app:layout_constraintTop_toBottomOf="@id/textViewAlertLogin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:background="@drawable/background"
+        android:paddingBottom="25dp"
+        tools:context=".activity.FormLogin">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            style="@style/layoutTextViewFormLogin">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="370dp"
+            android:layout_height="220dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="30dp"
+            android:src="@drawable/main"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ImageContrastCheck" />
 
-            <ImageView
-                android:id="@+id/imgEmail"
-                style="@style/ImgFormLogin"
-                android:src="@drawable/ic_email"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints" />
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="250dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="15dp"
+            android:contentDescription="@string/logo_app"
+            android:src="@drawable/logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-            <TextView
-                android:id="@+id/textViewEmail"
-                style="@style/TextViewFormLogin"
-                android:text="Seu e-mail"
-                app:layout_constraintStart_toEndOf="@id/imgEmail"
-                tools:ignore="MissingConstraints" />
+        <TextView
+            android:id="@+id/textViewAlertLogin"
+            style="@style/TextViewFormLoginAlert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="E-mail ou senha incorretos!"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logo" />
 
-            <TextView
-                android:id="@+id/textViewEmailAlert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/TextViewFormLoginAlert"
-                android:text="E-mail invalido!"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="MissingConstraints" />
+        <LinearLayout
+            android:id="@+id/formLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical"
+            android:paddingBottom="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewAlertLogin">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/layoutTextViewFormLogin">
 
-        <EditText
-            android:id="@+id/editTextEmail"
-            style="@style/EditText"
-            android:hint="@string/email_email_com"
-            android:inputType="textEmailAddress"
-            android:maxLength="30"
-            android:textAlignment="center" />
+                <ImageView
+                    android:id="@+id/imgEmail"
+                    style="@style/ImgFormLogin"
+                    android:src="@drawable/ic_email"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="MissingConstraints" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            style="@style/layoutTextViewFormLogin">
+                <TextView
+                    android:id="@+id/textViewEmail"
+                    style="@style/TextViewFormLogin"
+                    android:text="Seu e-mail"
+                    app:layout_constraintStart_toEndOf="@id/imgEmail"
+                    tools:ignore="MissingConstraints" />
 
-            <ImageView
-                android:id="@+id/imgSenha"
-                style="@style/ImgFormLogin"
-                android:src="@drawable/ic_lock"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints" />
+                <TextView
+                    android:id="@+id/textViewEmailAlert"
+                    style="@style/TextViewFormLoginAlert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="E-mail invalido!"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="MissingConstraints" />
 
-            <TextView
-                android:id="@+id/textViewSenha"
-                style="@style/TextViewFormLogin"
-                android:text="Sua senha"
-                app:layout_constraintStart_toEndOf="@id/imgSenha"
-                tools:ignore="MissingConstraints" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/textViewSenhaAlert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/TextViewFormLoginAlert"
-                android:text="Senha invalida!"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="MissingConstraints" />
+            <EditText
+                android:id="@+id/editTextEmail"
+                style="@style/EditText"
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:hint="@string/email_email_com"
 
-        <EditText
-            android:id="@+id/editTextSenha"
-            style="@style/EditText"
-            android:hint="@string/password_hint"
-            android:inputType="textPassword"
-            android:textAlignment="center"/>
+                android:inputType="textEmailAddress"
+                android:maxLength="30"
+                android:text="aluno@email.com"
+                android:textAlignment="center" />
 
-        <Button
-            android:id="@+id/buttonLoginSubmit"
-            style="@style/ButtonSubmit"
-            android:text="@string/fazer_login"
-            app:layout_constraintTop_toBottomOf="@id/editTextSenha" />
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/layoutTextViewFormLogin">
 
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/imgSenha"
+                    style="@style/ImgFormLogin"
+                    android:src="@drawable/ic_lock"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="MissingConstraints" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="5dp"
-        android:visibility="invisible"
-        android:indeterminateTint="@color/hint_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/formLogin" />
+                <TextView
+                    android:id="@+id/textViewSenha"
+                    style="@style/TextViewFormLogin"
+                    android:text="Sua senha"
+                    app:layout_constraintStart_toEndOf="@id/imgSenha"
+                    tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/textViewCreateAcc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="30dp"
-        android:text="@string/nao_possui_uma_conta"
-        android:textColor="@color/text_color"
-        android:textSize="13sp"
-        android:fontFamily="@font/nunito_sans"
-        app:layout_constraintTop_toBottomOf="@id/progressBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+                <TextView
+                    android:id="@+id/textViewSenhaAlert"
+                    style="@style/TextViewFormLoginAlert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Senha invalida!"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/textViewCliqueAqui"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/clique_aqui"
-        android:textColor="@color/link_color"
-        android:textStyle="bold"
-        android:textSize="15sp"
-        android:fontFamily="@font/nunito_sans"
-        app:layout_constraintTop_toBottomOf="@id/textViewCreateAcc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <EditText
+                android:id="@+id/editTextSenha"
+                style="@style/EditText"
+
+                android:hint="@string/password_hint"
+
+                android:inputType="textPassword"
+                android:text="12345"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/buttonLoginSubmit"
+                style="@style/ButtonSubmit"
+                android:text="@string/fazer_login"
+                app:layout_constraintTop_toBottomOf="@id/editTextSenha" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:indeterminateTint="@color/hint_color"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/formLogin" />
+
+        <TextView
+            android:id="@+id/textViewCreateAcc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/nao_possui_uma_conta"
+            android:textColor="@color/text_color"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progressBar" />
+
+        <TextView
+            android:id="@+id/textViewCliqueAqui"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/clique_aqui"
+            android:textColor="@color/link_color"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewCreateAcc" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

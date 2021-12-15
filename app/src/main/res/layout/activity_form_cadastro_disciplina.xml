@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:fillViewport="true" >
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -26,68 +25,66 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_margin="15dp"
-            app:layout_constraintTop_toTopOf="@id/tituloContainer"
+            app:layout_constraintEnd_toEndOf="@id/tituloContainer"
             app:layout_constraintStart_toStartOf="@id/tituloContainer"
-            app:layout_constraintEnd_toEndOf="@id/tituloContainer" />
+            app:layout_constraintTop_toTopOf="@id/tituloContainer" />
 
         <ImageView
             android:id="@+id/imgBack"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:contentDescription="Voltar"
             android:src="@drawable/ic_arrow_back"
             app:layout_constraintStart_toStartOf="@id/topIcones"
-            app:layout_constraintTop_toTopOf="@id/topIcones"
-            android:contentDescription="Voltar" />
+            app:layout_constraintTop_toTopOf="@id/topIcones" />
 
         <ImageView
             android:id="@+id/imgMenu"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:contentDescription="Menu"
             android:src="@drawable/ic_menu"
-            app:layout_constraintTop_toTopOf="@id/topIcones"
             app:layout_constraintEnd_toEndOf="@id/topIcones"
-            android:contentDescription="Menu" />
+            app:layout_constraintTop_toTopOf="@id/topIcones" />
 
         <TextView
             android:id="@+id/textViewTitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:layout_marginLeft="25dp"
+            android:layout_marginTop="30dp"
             android:layout_marginRight="25dp"
-            android:text="Nova disciplina"
             android:fontFamily="@font/poppins"
+            android:text="Nova disciplina"
+            android:textColor="@color/hint_color"
             android:textSize="22sp"
             android:textStyle="bold"
-            android:textColor="@color/hint_color"
             app:layout_constraintTop_toBottomOf="@id/topIcones" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewForm"
             style="@style/cardViewForm"
-            app:layout_constraintTop_toBottomOf="@id/textViewTitulo"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/textViewTitulo">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:paddingTop="15dp"
                 android:paddingBottom="25dp"
-                app:layout_constraintTop_toTopOf="@id/cardViewForm"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toTopOf="@id/cardViewForm">
 
                 <TextView
                     style="@style/textViewTituloForm"
-                    android:text="Sobre a disciplina"/>
+                    android:text="Sobre a disciplina" />
 
-                <ImageView
-                    style="@style/imageViewTituloForm"/>
+                <ImageView style="@style/imageViewTituloForm" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/areaTituloInput">
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
                     <TextView
                         android:id="@+id/textViewDisciplina"
@@ -105,10 +102,9 @@
 
                 <Spinner
                     android:id="@+id/spinnerDisciplina"
-                    style="@style/EditText"/>
+                    style="@style/EditText" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/areaTituloInput">
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
                     <TextView
                         android:id="@+id/textViewValor"
@@ -127,19 +123,17 @@
                 <EditText
                     android:id="@+id/editTextValor"
                     style="@style/EditText"
+                    android:hint="00,00"
                     android:inputType="numberDecimal"
-                    android:maxLength="150"
-                    android:hint="00,00"/>
+                    android:maxLength="150" />
 
                 <TextView
                     style="@style/textViewTituloForm"
-                    android:text="Sua disponibilidade"/>
+                    android:text="Sua disponibilidade" />
 
-                <ImageView
-                    style="@style/imageViewTituloForm"/>
+                <ImageView style="@style/imageViewTituloForm" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/areaTituloInput">
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
                     <TextView
                         android:id="@+id/textViewDiaSemana"
@@ -157,10 +151,9 @@
 
                 <Spinner
                     android:id="@+id/spinnerDiaSemana"
-                    style="@style/EditText"/>
+                    style="@style/EditText" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/areaTituloInput">
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
                     <TextView
                         android:id="@+id/textViewDas"
@@ -179,12 +172,11 @@
                 <EditText
                     android:id="@+id/editTextDas"
                     style="@style/EditText"
+                    android:hint="00:00"
                     android:inputType="time"
-                    android:maxLength="5"
-                    android:hint="00:00"/>
+                    android:maxLength="5" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/areaTituloInput">
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
                     <TextView
                         android:id="@+id/textViewAte"
@@ -203,9 +195,9 @@
                 <EditText
                     android:id="@+id/editTextFoto"
                     style="@style/EditText"
+                    android:hint="00:00"
                     android:inputType="time"
-                    android:maxLength="5"
-                    android:hint="00:00"/>
+                    android:maxLength="5" />
 
                 <TextView
                     android:id="@+id/textViewCamposObg"

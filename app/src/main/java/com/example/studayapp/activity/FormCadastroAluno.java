@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.studayapp.R;
-import com.example.studayapp.classes.Aluno;
+import com.example.studayapp.model.Aluno;
 import com.example.studayapp.util.Mask;
 import com.example.studayapp.util.Validator;
 

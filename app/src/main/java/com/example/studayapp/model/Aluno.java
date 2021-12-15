@@ -1,4 +1,4 @@
-package com.example.studayapp.classes;
+package com.example.studayapp.model;
 
 import java.io.Serializable;
 import java.util.Date;

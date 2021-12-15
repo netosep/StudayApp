@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="ContainerLogin">
         <item name="android:layout_width">380dp</item>
         <item name="android:layout_height">225dp</item>
@@ -55,8 +56,8 @@
     <style name="ImgFormLogin">
         <item name="android:layout_width">20dp</item>
         <item name="android:layout_height">20dp</item>
-<!--        <item name="android:layout_marginTop">10dp</item>-->
-<!--        <item name="android:layout_marginLeft">15dp</item>-->
+        <!--        <item name="android:layout_marginTop">10dp</item>-->
+        <!--        <item name="android:layout_marginLeft">15dp</item>-->
     </style>
 
     <style name="ButtonSubmit">
@@ -178,5 +179,11 @@
         <item name="android:layout_marginLeft">15dp</item>
         <item name="android:layout_marginRight">15dp</item>
         <item name="cardCornerRadius">10dp</item>
+    </style>
+
+    <style name="menuText">
+        <item name="fontFamily">@font/nunito_sans</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textSize">17sp</item>
     </style>
 </resources>
