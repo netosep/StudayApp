@@ -12,7 +12,7 @@
                     android:title="Minha conta"/>
                 <item
                     android:id="@+id/professoresId"
-                    android:icon="@drawable/ic_portrait_dark"
+                    android:icon="@drawable/ic_person"
                     android:title="Professores"/>
                 <item
                     android:id="@+id/favoritosId"
@@ -22,6 +22,10 @@
                     android:id="@+id/avaliacoesId"
                     android:icon="@drawable/ic_star_dark"
                     android:title="Avaliações"/>
+                <item
+                    android:id="@+id/infoId"
+                    android:icon="@drawable/ic_info"
+                    android:title="Sobre"/>
                 <item
                     android:id="@+id/sairId"
                     android:icon="@drawable/ic_exit"

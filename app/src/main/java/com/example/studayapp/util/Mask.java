@@ -5,7 +5,7 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 
 /***********************************************************
- *                  Mascara para EditText                  *
+ *          Mascara para EditText adaptada                 *
  *  Autor: https://pt.stackoverflow.com/users/35406/viana  *
  * *********************************************************/
 
@@ -44,13 +44,14 @@ public abstract class Mask {
             public void afterTextChanged(Editable s) {}
         };
     }
-    public static String unmask(String s) {
-        return s.replaceAll("[.]", "")
-                .replaceAll("[-]", "")
-                .replaceAll("[/]", "")
-                .replaceAll("[(]", "")
-                .replaceAll("[)]", "")
-                .replaceAll("[ ]", "");
+    public static String unmask(String string) {
+        return string.replaceAll("[.]", "")
+                     .replaceAll("[-]", "")
+                     .replaceAll("[/]", "")
+                     .replaceAll("[(]", "")
+                     .replaceAll("[)]", "")
+                     .replaceAll("[:]", "")
+                     .replaceAll("[ ]", "");
     }
 
 }

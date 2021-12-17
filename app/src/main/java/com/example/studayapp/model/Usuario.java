@@ -8,16 +8,16 @@ public class Usuario {
     private static int tipo; // 1 aluno | 2 professor | 3 admin
 
     public Usuario(Integer idUsuario, String email, String senha, int tipo) {
-        this.idUsuario = idUsuario;
-        this.email = email;
-        this.senha = senha;
-        this.tipo = tipo;
+        Usuario.idUsuario = idUsuario;
+        Usuario.email = email;
+        Usuario.senha = senha;
+        Usuario.tipo = tipo;
     }
 
     public Usuario(String email, String senha, int tipo) {
-        this.email = email;
-        this.senha = senha;
-        this.tipo = tipo;
+        Usuario.email = email;
+        Usuario.senha = senha;
+        Usuario.tipo = tipo;
     }
 
     public Usuario() {}
@@ -27,7 +27,7 @@ public class Usuario {
     }
 
     public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
+        Usuario.idUsuario = idUsuario;
     }
 
     public String getEmail() {
@@ -35,7 +35,7 @@ public class Usuario {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        Usuario.email = email;
     }
 
     public String getSenha() {
@@ -43,7 +43,7 @@ public class Usuario {
     }
 
     public void setSenha(String senha) {
-        this.senha = senha;
+        Usuario.senha = senha;
     }
 
     public int getTipo() {
@@ -51,6 +51,6 @@ public class Usuario {
     }
 
     public void setTipo(int tipo) {
-        this.tipo = tipo;
+        Usuario.tipo = tipo;
     }
 }

@@ -65,10 +65,13 @@ public class Disciplinas extends AppCompatActivity implements NavigationView.OnN
                 Toast.makeText(getApplicationContext(), "Minha conta", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.disciplinasId:
-                startActivity(new Intent(getApplicationContext(), Disciplinas.class));
+                drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.avaliacoesId:
                 Toast.makeText(getApplicationContext(), "Avaliações", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.infoId:
+                Toast.makeText(getApplicationContext(), "Sobre", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.sairId:
                 Toast.makeText(getApplicationContext(), "Sair", Toast.LENGTH_SHORT).show();

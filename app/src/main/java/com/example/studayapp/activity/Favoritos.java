@@ -41,6 +41,8 @@ public class Favoritos extends AppCompatActivity implements NavigationView.OnNav
         navigationView.setNavigationItemSelectedListener(this);
         /* -------------------------------------------------------------- */
 
+        nomeUsuario.setText("Olá Aluno!");
+
     }
 
     @Override
@@ -59,13 +61,16 @@ public class Favoritos extends AppCompatActivity implements NavigationView.OnNav
                 Toast.makeText(getApplicationContext(), "Minha conta", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.favoritosId:
-                startActivity(new Intent(getApplicationContext(), Favoritos.class));
+                drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.professoresId:
                 startActivity(new Intent(getApplicationContext(), Professores.class));
                 break;
             case R.id.avaliacoesId:
                 Toast.makeText(getApplicationContext(), "Avaliações", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.infoId:
+                Toast.makeText(getApplicationContext(), "Sobre", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.sairId:
                 Toast.makeText(getApplicationContext(), "Sair", Toast.LENGTH_SHORT).show();

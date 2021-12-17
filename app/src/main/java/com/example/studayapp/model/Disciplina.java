@@ -1,24 +1,28 @@
 package com.example.studayapp.model;
 
+import java.util.List;
+
 public class Disciplina {
 
-    private  Integer idDisciplina;
+    private Integer idDisciplina;
     private String nome;
-    private float custo;
-    private Disponibilidade disponibilidade;
+    private double custo;
+    private List<Disponibilidade> disponibilidade;
 
-    public Disciplina(Integer idDisciplina, String nome, float custo, Disponibilidade disponibilidade) {
+    public Disciplina(Integer idDisciplina, String nome, double custo, List<Disponibilidade> disponibilidade) {
         this.idDisciplina = idDisciplina;
         this.nome = nome;
         this.custo = custo;
         this.disponibilidade = disponibilidade;
     }
 
-    public Disciplina(String nome, float custo, Disponibilidade disponibilidade) {
+    public Disciplina(String nome, double custo, List<Disponibilidade> disponibilidade) {
         this.nome = nome;
         this.custo = custo;
         this.disponibilidade = disponibilidade;
     }
+
+    public Disciplina() {}
 
     public Integer getIdDisciplina() {
         return idDisciplina;
@@ -36,19 +40,19 @@ public class Disciplina {
         this.nome = nome;
     }
 
-    public float getCusto() {
+    public double getCusto() {
         return custo;
     }
 
-    public void setCusto(float custo) {
+    public void setCusto(double custo) {
         this.custo = custo;
     }
 
-    public Disponibilidade getDisponibilidade() {
+    public List<Disponibilidade> getDisponibilidade() {
         return disponibilidade;
     }
 
-    public void setDisponibilidade(Disponibilidade disponibilidade) {
+    public void setDisponibilidade(List<Disponibilidade> disponibilidade) {
         this.disponibilidade = disponibilidade;
     }
 }

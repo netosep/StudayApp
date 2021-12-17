@@ -63,6 +63,7 @@ public class FormCadastroAluno extends AppCompatActivity {
                 if(formularioIsValid()) {
                     try {
                         cadastrarAluno();
+                        Toast.makeText(getApplicationContext(), "Tudo OK!", Toast.LENGTH_SHORT).show();
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -119,7 +120,7 @@ public class FormCadastroAluno extends AppCompatActivity {
             alertEmail.setText(validator.getMsgEmail());
         }
 
-        if(validator.whastappIsValid(whatsapp)) {
+        if(validator.whastappIsValid(whatsapp, false)) {
             alertWhatsapp.setVisibility(View.INVISIBLE);
             whatsappValido = true;
         } else {
@@ -173,7 +174,7 @@ public class FormCadastroAluno extends AppCompatActivity {
         Aluno aluno = new Aluno();
         aluno.setNomeCompleto(nomeSobrenome.getText().toString());
         aluno.setEmail(email.getText().toString());
-        aluno.setWhatsapp(Mask.unmask(whatsapp.getText().toString()));
+        aluno.setWhatsapp(whatsapp.getText().toString().isEmpty() ? null : Mask.unmask(whatsapp.getText().toString()));
         aluno.setDataNascimento(dataNascimento.getText().toString().isEmpty() ? null : sdf.parse(dataNascimento.getText().toString()));
         aluno.setSenha(senha.getText().toString());
         aluno.setTipo(1);

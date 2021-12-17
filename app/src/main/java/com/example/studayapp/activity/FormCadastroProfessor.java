@@ -62,6 +62,7 @@ public class FormCadastroProfessor extends AppCompatActivity {
                 if(formularioIsValid()) {
                     try {
                         cadastrarProfessor();
+                        Toast.makeText(getApplicationContext(), "Tudo OK!", Toast.LENGTH_SHORT).show();
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -131,7 +132,7 @@ public class FormCadastroProfessor extends AppCompatActivity {
             alertEmail.setText(validator.getMsgEmail());
         }
 
-        if(validator.whastappIsValid(whatsapp)) {
+        if(validator.whastappIsValid(whatsapp, true)) {
             alertWhatsapp.setVisibility(View.INVISIBLE);
             whatsappValido = true;
         } else {
@@ -147,12 +148,12 @@ public class FormCadastroProfessor extends AppCompatActivity {
             alertDataNasc.setText(validator.getMsgData());
         }
 
-        if(validator.sexoIsValid(sexo)) {
+        if(validator.selectIsValid(sexo)) {
             alertSexo.setVisibility(View.INVISIBLE);
             sexoValido = true;
         } else {
             alertSexo.setVisibility(View.VISIBLE);
-            alertSexo.setText(validator.getMsgSexo());
+            alertSexo.setText(validator.getMsgSelect());
         }
 
         if(validator.descricaoIsValid(descricao)) {

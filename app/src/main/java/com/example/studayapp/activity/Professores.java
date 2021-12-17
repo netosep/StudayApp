@@ -41,7 +41,7 @@ public class Professores extends AppCompatActivity implements NavigationView.OnN
         navigationView.setNavigationItemSelectedListener(this);
         /* -------------------------------------------------------------- */
 
-        nomeUsuario.setText("Olá aluno!");
+        nomeUsuario.setText("Olá Aluno!");
 
     }
 
@@ -61,13 +61,17 @@ public class Professores extends AppCompatActivity implements NavigationView.OnN
                 Toast.makeText(getApplicationContext(), "Minha conta", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.favoritosId:
+                drawerLayout.closeDrawer(GravityCompat.START);
                 startActivity(new Intent(getApplicationContext(), Favoritos.class));
                 break;
             case R.id.professoresId:
-                startActivity(new Intent(getApplicationContext(), Professores.class));
+                drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.avaliacoesId:
                 Toast.makeText(getApplicationContext(), "Avaliações", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.infoId:
+                Toast.makeText(getApplicationContext(), "Sobre", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.sairId:
                 Toast.makeText(getApplicationContext(), "Sair", Toast.LENGTH_SHORT).show();

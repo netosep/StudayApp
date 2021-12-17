@@ -13,7 +13,9 @@ public class Validator {
     private String msgEmail;
     private String msgWhatsApp;
     private String msgData;
-    private String msgSexo;
+    private String msgHora;
+    private String msgValor;
+    private String msgSelect;
     private String msgDescricao;
     private String msgBiografia;
     private String msgSenha;
@@ -27,8 +29,7 @@ public class Validator {
             this.setMsgNome("Campo obrigatório!");
             return false;
         }
-        // separando por espaço
-        else if(stringNome.split("\\s+").length < 2){
+        else if(stringNome.split("[ ]").length < 2){
             this.setMsgNome("Insira nome e sobrenome!");
             return false;
         }
@@ -66,17 +67,34 @@ public class Validator {
         }
     }
 
-    public boolean whastappIsValid(EditText whatsapp) {
+    public boolean whastappIsValid(EditText whatsapp, boolean requerido) {
         String stringWhatsApp = whatsapp.getText().toString();
-        if(stringWhatsApp.isEmpty()) {
+        if(stringWhatsApp.isEmpty() && requerido) {
             this.setMsgWhatsApp("Campo obrigatório!");
             return false;
         }
-        else if(stringWhatsApp.length() < 15) {
+        else if(!stringWhatsApp.isEmpty() && stringWhatsApp.length() < 15) {
             this.setMsgWhatsApp("Telefone inválido!");
             return false;
         } else {
             return true;
+        }
+    }
+
+    public boolean valorIsValid(EditText valor) {
+        String stringValor = valor.getText().toString();
+        if(stringValor.isEmpty()) {
+            this.setMsgValor("Campo obrigatório!");
+            return false;
+        } else {
+            try {
+                stringValor = stringValor.replaceAll("[,]", ".");
+                Double.parseDouble(stringValor);
+                return true;
+            } catch (Exception e) {
+                this.setMsgValor("Valor inválido!");
+                return false;
+            }
         }
     }
 
@@ -97,10 +115,28 @@ public class Validator {
         }
     }
 
-    public boolean sexoIsValid(Spinner sexo) {
-        String stringSexo = sexo.getSelectedItem().toString().toUpperCase(Locale.ROOT);
-        if(stringSexo.equals("SELECIONE")) {
-            this.setMsgSexo("Campo obrigatório!");
+    public boolean horaIsValid(EditText hora) {
+        String stringHora = hora.getText().toString();
+        if(stringHora.isEmpty()) {
+            this.setMsgHora("Campo obrigatório!");
+            return false;
+        } else {
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            sdf.setLenient(false);
+            try {
+                sdf.parse(stringHora);
+                return true;
+            } catch (ParseException e) {
+                this.setMsgHora("Horário inválido!");
+                return false;
+            }
+        }
+    }
+
+    public boolean selectIsValid(Spinner select) {
+        String stringSelect = select.getSelectedItem().toString().toUpperCase(Locale.ROOT);
+        if(stringSelect.equals("SELECIONE")) {
+            this.setMsgSelect("Campo obrigatório!");
             return false;
         } else {
             return true;
@@ -221,12 +257,28 @@ public class Validator {
         this.msgData = msgData;
     }
 
-    public String getMsgSexo() {
-        return msgSexo;
+    public String getMsgHora() {
+        return msgHora;
     }
 
-    public void setMsgSexo(String msgSexo) {
-        this.msgSexo = msgSexo;
+    public void setMsgHora(String msgHora) {
+        this.msgHora = msgHora;
+    }
+
+    public String getMsgSelect() {
+        return msgSelect;
+    }
+
+    public String getMsgValor() {
+        return msgValor;
+    }
+
+    public void setMsgValor(String msgValor) {
+        this.msgValor = msgValor;
+    }
+
+    public void setMsgSelect(String msgSexo) {
+        this.msgSelect = msgSexo;
     }
 
     public String getMsgDescricao() {

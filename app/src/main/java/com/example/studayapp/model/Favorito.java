@@ -1,18 +1,18 @@
 package com.example.studayapp.model;
 
-public class ProfessorFavorito {
+public class Favorito {
 
     private Integer idFavorito;
     private Aluno aluno;
     private Professor professor;
 
-    public ProfessorFavorito(Integer idFavorito, Aluno aluno, Professor professor) {
+    public Favorito(Integer idFavorito, Aluno aluno, Professor professor) {
         this.idFavorito = idFavorito;
         this.aluno = aluno;
         this.professor = professor;
     }
 
-    public ProfessorFavorito(Aluno aluno, Professor professor) {
+    public Favorito(Aluno aluno, Professor professor) {
         this.aluno = aluno;
         this.professor = professor;
     }

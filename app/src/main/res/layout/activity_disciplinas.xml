@@ -94,7 +94,7 @@
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:onClick="cadastrarDisciplina"
-                        android:src="@drawable/ic_add_circle"
+                        android:src="@drawable/ic_add"
                         android:backgroundTint="@color/light_green"
                         app:layout_constraintEnd_toEndOf="parent"
                         tools:ignore="MissingConstraints" />
@@ -112,6 +112,38 @@
                         android:orientation="vertical"
                         android:padding="15dp">
 
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="25dp">
+
+                            <TextView
+                                style="@style/textViewTituloForm"
+                                android:layout_width="wrap_content"
+                                android:text="Nome da disciplina"
+                                android:layout_marginLeft="0dp"
+                                android:layout_marginRight="0dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                tools:ignore="MissingConstraints" />
+
+                            <TextView
+                                style="@style/textViewTituloForm"
+                                android:layout_width="wrap_content"
+                                android:text="Opções"
+                                android:layout_marginLeft="0dp"
+                                android:layout_marginRight="35dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                tools:ignore="MissingConstraints" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+                        <ImageView style="@style/imageViewTituloForm"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginRight="0dp"
+                            android:layout_marginBottom="5dp"/>
+
                         <!-- Card disciplina -->
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -1183,11 +1215,6 @@
 
                         </LinearLayout>
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/stroke_color"
-                            android:contentDescription="TODO" />
                         <!--                 -->
 
                     </LinearLayout>

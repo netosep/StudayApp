@@ -10,7 +10,7 @@ public class Aluno extends Usuario implements Serializable {
     private String nomeCompleto;
     private String whatsapp;
     private Date dataNascimento;
-    private List<ProfessorFavorito> professoresFavoritos;
+    private List<Favorito> professoresFavoritos;
 
     public Aluno(Integer idAluno, String nomeCompleto, String whatsapp, Date dataNascimento, Integer idUsuario, String email, String senha, int tipo) {
         super(idUsuario, email, senha, tipo);

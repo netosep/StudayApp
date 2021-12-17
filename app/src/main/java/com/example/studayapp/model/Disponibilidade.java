@@ -1,26 +1,26 @@
 package com.example.studayapp.model;
 
-import java.sql.Time;
-
 public class Disponibilidade {
 
     private Integer idDisponibilidade;
     private String diaDaSemana;
-    private Time horarioInicio;
-    private Time horarioFinal;
+    private String horarioInicio;
+    private String horarioFinal;
 
-    public Disponibilidade(Integer idDisponibilidade, String diaDaSemana, Time horarioInicio, Time horarioFinal) {
+    public Disponibilidade(Integer idDisponibilidade, String diaDaSemana, String horarioInicio, String horarioFinal) {
         this.idDisponibilidade = idDisponibilidade;
         this.diaDaSemana = diaDaSemana;
         this.horarioInicio = horarioInicio;
         this.horarioFinal = horarioFinal;
     }
 
-    public Disponibilidade(String diaDaSemana, Time horarioInicio, Time horarioFinal) {
+    public Disponibilidade(String diaDaSemana, String horarioInicio, String horarioFinal) {
         this.diaDaSemana = diaDaSemana;
         this.horarioInicio = horarioInicio;
         this.horarioFinal = horarioFinal;
     }
+
+    public Disponibilidade() {}
 
     public Integer getIdDisponibilidade() {
         return idDisponibilidade;
@@ -38,19 +38,19 @@ public class Disponibilidade {
         this.diaDaSemana = diaDaSemana;
     }
 
-    public Time getHorarioInicio() {
+    public String getHorarioInicio() {
         return horarioInicio;
     }
 
-    public void setHorarioInicio(Time horarioInicio) {
+    public void setHorarioInicio(String horarioInicio) {
         this.horarioInicio = horarioInicio;
     }
 
-    public Time getHorarioFinal() {
+    public String getHorarioFinal() {
         return horarioFinal;
     }
 
-    public void setHorarioFinal(Time horarioFinal) {
+    public void setHorarioFinal(String horarioFinal) {
         this.horarioFinal = horarioFinal;
     }
 }
