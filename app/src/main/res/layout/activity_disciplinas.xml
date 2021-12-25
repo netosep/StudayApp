@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/backgroud_main"
-            tools:context=".activity.Disciplinas">
+            tools:context=".activity.professor.Disciplinas">
 
             <View
                 android:id="@+id/tituloContainer"

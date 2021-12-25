@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background"
         android:paddingBottom="25dp"
-        tools:context=".activity.FormLogin">
+        tools:context=".activity.form.FormLogin">
 
         <ImageView
             android:id="@+id/imageView"
@@ -95,7 +95,7 @@
 
                 android:inputType="textEmailAddress"
                 android:maxLength="30"
-                android:text="aluno@email.com"
+                android:text="neto@email.com"
                 android:textAlignment="center" />
 
             <androidx.constraintlayout.widget.ConstraintLayout style="@style/layoutTextViewFormLogin">
@@ -132,7 +132,7 @@
                 android:hint="@string/password_hint"
 
                 android:inputType="textPassword"
-                android:text="12345"
+                android:text="555555"
                 android:textAlignment="center" />
 
             <Button
@@ -158,7 +158,7 @@
             android:id="@+id/textViewCreateAcc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"
             android:fontFamily="@font/nunito_sans"
             android:text="@string/nao_possui_uma_conta"

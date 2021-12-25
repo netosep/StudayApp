@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/backgroud_main"
         android:paddingBottom="15dp"
-        tools:context=".activity.FormCadastroProfessor">
+        tools:context=".activity.form.FormCadastroProfessor">
 
         <View
             android:id="@+id/tituloContainer"

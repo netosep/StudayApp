@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "381308815627",
+    "project_id": "studay-a5882",
+    "storage_bucket": "studay-a5882.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:381308815627:android:f986979c8020405734ba0e",
+        "android_client_info": {
+          "package_name": "com.neto.studayapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "381308815627-n737dlmj9o42g4b8a6jm81hugrj3lpva.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBinmy0otxHFwooD5EHPu__I5pvpkot24M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "381308815627-n737dlmj9o42g4b8a6jm81hugrj3lpva.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

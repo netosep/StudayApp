@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background"
         android:paddingBottom="35dp"
-        tools:context=".activity.Disciplinas">
+        tools:context=".activity.professor.Disciplinas">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/topIcones"

@@ -1,4 +1,5 @@
 <resources>
+    <!--  Misc  -->
     <string name="app_name">Studay</string>
     <string name="logo_app">Logo App</string>
     <string name="email_email_com">email@email.com</string>
@@ -11,6 +12,17 @@
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="abrir">Abrir</string>
     <string name="fechar">Fechar</string>
+    <string name="loading">Carregando…</string>
+    <string name="saindo">Saindo…</string>
+
+    <!--  Erros  -->
+    <string name="erro_email_senha">E-mail ou senha incorretos!</string>
+    <string name="erro_internet">Conexão com a internet indisponivel!</string>
+    <string name="erro_login">Ocorreu um erro ao fazer login!</string>
+    <string name="erro_email_inexistente">E-mail inexistente!</string>
+    <string name="erro_email_em_uso">Este e-mail já está em uso!</string>
+
+    <!--  Arrays  -->
     <string-array name="sexo">
         <item>Selecione</item>
         <item>Masculino</item>
@@ -29,20 +41,6 @@
     </string-array>
     <string-array name="disciplinas">
         <item>Selecione</item>
-        <item>Português</item>
-        <item>Matemática</item>
-        <item>Português</item>
-        <item>Matemática</item>
-        <item>Português</item>
-        <item>Matemática</item>
-        <item>Português</item>
-        <item>Matemática</item>
-        <item>Português</item>
-        <item>Matemática</item>
-        <item>Português</item>
-        <item>Matemática</item>
-        <item>Português</item>
-        <item>Matemática</item>
         <item>Português</item>
         <item>Matemática</item>
         <item>adc mais pelo db</item>
