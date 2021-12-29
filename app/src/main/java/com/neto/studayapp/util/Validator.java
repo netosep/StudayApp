@@ -30,6 +30,9 @@ public class Validator {
         if (stringNome.isEmpty()) {
             this.setMsgNome("Campo obrigatório!");
             return false;
+        } else if (stringNome.startsWith(" ") || stringNome.endsWith(" ")) {
+            this.setMsgNome("Nome inválido");
+            return false;
         } else if (stringNome.split("[ ]").length < 2) {
             this.setMsgNome("Insira nome e sobrenome!");
             return false;
@@ -49,7 +52,8 @@ public class Validator {
         if (stringEmail.isEmpty()) {
             this.setMsgEmail("Campo obrigatório!");
             return false;
-        } else if (!stringEmail.contains("@") || stringEmail.startsWith(" ") || stringEmail.contains(" ")) {
+        } else if (!stringEmail.contains("@") || stringEmail.startsWith(" ") ||
+                stringEmail.endsWith(" ") || stringEmail.contains(" ")) {
             this.setMsgEmail("E-mail inválido!");
             return false;
         } else if (stringEmail.length() < 10) {
@@ -84,8 +88,12 @@ public class Validator {
         } else {
             try {
                 stringValor = stringValor.replaceAll("[,]", ".");
-                Double.parseDouble(stringValor);
-                return true;
+                if (Double.parseDouble(stringValor) > 0) {
+                    return true;
+                } else {
+                    this.setMsgValor("Valor inválido!");
+                    return false;
+                }
             } catch (Exception e) {
                 this.setMsgValor("Valor inválido!");
                 return false;

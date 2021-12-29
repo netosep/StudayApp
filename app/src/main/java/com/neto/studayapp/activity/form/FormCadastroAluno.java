@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +35,6 @@ import java.util.Objects;
 
 public class FormCadastroAluno extends AppCompatActivity {
 
-    private ImageView imgVoltar;
     private EditText nomeSobrenome, email, whatsapp, dataNascimento, senha, confirmSenha;
     private TextView alertNome, alertEmail, alertWhatsapp, alertDataNasc, alertSenha, alertConfSenha;
     private Button buttonSubmit;
@@ -43,11 +44,6 @@ public class FormCadastroAluno extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_cadastro_aluno);
         iniciarComponentes();
-
-        imgVoltar.setOnClickListener(view -> {
-            Intent intent = new Intent(FormCadastroAluno.this, FormLogin.class);
-            startActivity(intent);
-        });
 
         // mascaras para o EditText de telefone e data
         whatsapp.addTextChangedListener(Mask.insert("(##) #####-####", whatsapp));
@@ -66,14 +62,20 @@ public class FormCadastroAluno extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(FormCadastroAluno.this, EscolhaCadastro.class));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        finish();
+    }
+
     public void voltar(View view) {
         startActivity(new Intent(FormCadastroAluno.this, EscolhaCadastro.class));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         finish();
     }
 
     private void iniciarComponentes() {
-        imgVoltar = findViewById(R.id.imgBack);
-
         nomeSobrenome = findViewById(R.id.editTextNomeSobrenome);
         email = findViewById(R.id.editTextEmail);
         whatsapp = findViewById(R.id.editTextWhatsapp);
@@ -158,8 +160,9 @@ public class FormCadastroAluno extends AppCompatActivity {
 
     @SuppressLint("SimpleDateFormat")
     public void cadastrarAluno(View view) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        // criando um objeto aluno para ser adc ao banco
         Aluno aluno = new Aluno();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         aluno.setNomeCompleto(nomeSobrenome.getText().toString());
         aluno.setWhatsapp(whatsapp.getText().toString().isEmpty() ? null : Mask.unmask(whatsapp.getText().toString()));
         aluno.setDataNascimento(dataNascimento.getText().toString().isEmpty() ? null : sdf.parse(dataNascimento.getText().toString()));
@@ -168,19 +171,24 @@ public class FormCadastroAluno extends AppCompatActivity {
         String emailString = email.getText().toString();
         String senhaString = senha.getText().toString();
 
+        // criando um novo usuário pelo firebase auth
         Task<AuthResult> authResultTask = FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailString, senhaString);
         authResultTask.addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
+                // apos criar o usuário sair
+                FirebaseAuth.getInstance().signOut();
+                // criando uma collection para um aluno no banco
                 FirebaseFirestore database = FirebaseFirestore.getInstance();
                 FirebaseUser user = Objects.requireNonNull(authResultTask.getResult()).getUser();
-                DocumentReference df = database.collection("aluno").document(Objects.requireNonNull(user).getUid());
+                DocumentReference df = database.collection("alunos").document(Objects.requireNonNull(user).getUid());
+                // definindo uma coleção "Aluno" no banco
                 df.set(aluno);
+
+                Toast.makeText(getApplicationContext(), "Sucesso!", Toast.LENGTH_SHORT).show();
 
                 //
                 // retornar sucesso
                 //
-
-                Toast.makeText(getApplicationContext(), "Sucesso!", Toast.LENGTH_SHORT).show();
 
             } else {
                 String erro;

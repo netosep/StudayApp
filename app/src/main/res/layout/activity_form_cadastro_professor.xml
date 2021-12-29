@@ -32,6 +32,7 @@
 
         <androidx.constraintlayout.utils.widget.ImageFilterButton
             android:id="@+id/imgBack"
+            style="@style/Button"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:backgroundTint="@color/light_green"
@@ -101,12 +102,9 @@
                 <EditText
                     android:id="@+id/editTextNomeSobrenome"
                     style="@style/EditText"
-
-                    android:hint="Ana Maria"
-
+                    android:hint="Nome Sobrenome"
                     android:inputType="textPersonName"
-                    android:maxLength="35"
-                    android:text="Neto Sepulveda" />
+                    android:maxLength="35" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
@@ -127,12 +125,9 @@
                 <EditText
                     android:id="@+id/editTextEmail"
                     style="@style/EditText"
-
                     android:hint="email@email.com"
-
                     android:inputType="textEmailAddress"
-                    android:maxLength="50"
-                    android:text="neto@email.com" />
+                    android:maxLength="50" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
@@ -153,12 +148,9 @@
                 <EditText
                     android:id="@+id/editTextWhatsapp"
                     style="@style/EditText"
-
                     android:hint="(00) 91234-5678"
-
                     android:inputType="number"
-                    android:maxLength="15"
-                    android:text="(00) 91234-5678" />
+                    android:maxLength="15" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
@@ -179,12 +171,9 @@
                 <EditText
                     android:id="@+id/editTextDataNasc"
                     style="@style/EditText"
-
                     android:hint="00/00/0000"
-
                     android:inputType="datetime"
-                    android:maxLength="10"
-                    android:text="01/01/2022" />
+                    android:maxLength="10" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
@@ -207,6 +196,35 @@
                     style="@style/EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+
+                <TextView
+                    style="@style/textViewTituloForm"
+                    android:text="Valores" />
+
+                <ImageView style="@style/imageViewTituloForm" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
+
+                    <TextView
+                        android:id="@+id/textViewValor"
+                        style="@style/textViewFormCadastro"
+                        android:text="Custo por hora de aula (R$) *"
+                        tools:ignore="MissingConstraints" />
+
+                    <TextView
+                        android:id="@+id/textViewValorAlert"
+                        style="@style/textViewFormCadastroAlert"
+                        android:text="Nome inválido!"
+                        tools:ignore="MissingConstraints" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:id="@+id/editTextValor"
+                    style="@style/EditText"
+                    android:hint="00,00"
+                    android:inputType="numberDecimal"
+                    android:maxLength="7" />
 
                 <TextView
                     style="@style/textViewTituloForm"
@@ -233,12 +251,9 @@
                 <EditText
                     android:id="@+id/editTextDescricao"
                     style="@style/EditText"
-
                     android:hint="Ex.: Mestrado em matemática..."
-
                     android:inputType="text"
-                    android:maxLength="55"
-                    android:text="Mestre em geografia avançada e experimental." />
+                    android:maxLength="55" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
@@ -259,12 +274,9 @@
                 <EditText
                     android:id="@+id/editTextBiografia"
                     style="@style/EditText"
-
-                    android:hint="Fale um pouco de você..."
-
+                    android:hint="Fale um pouco sobre você..."
                     android:inputType="text"
-                    android:maxLength="450"
-                    android:text="As vezes não sei nem onde estou, mas sei que estou por ai..." />
+                    android:maxLength="450" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
@@ -312,12 +324,9 @@
                 <EditText
                     android:id="@+id/editTextSenha"
                     style="@style/EditText"
-
                     android:hint="••••••••••••"
-
                     android:inputType="textPassword"
-                    android:maxLength="35"
-                    android:text="123456" />
+                    android:maxLength="35" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
@@ -338,12 +347,9 @@
                 <EditText
                     android:id="@+id/editTextConfSenha"
                     style="@style/EditText"
-
                     android:hint="••••••••••••"
-
                     android:inputType="textPassword"
-                    android:maxLength="35"
-                    android:text="123456" />
+                    android:maxLength="35" />
 
                 <TextView
                     android:id="@+id/textViewCamposObg"

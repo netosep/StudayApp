@@ -32,6 +32,7 @@
 
         <androidx.constraintlayout.utils.widget.ImageFilterButton
             android:id="@+id/imgBack"
+            style="@style/Button"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:backgroundTint="@color/light_green"
@@ -103,12 +104,9 @@
                 <EditText
                     android:id="@+id/editTextNomeSobrenome"
                     style="@style/EditText"
-
                     android:hint="Nome Sobrenome"
-
                     android:inputType="textPersonName"
-                    android:maxLength="50"
-                    android:text="Neto Sepulveda" />
+                    android:maxLength="50" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
@@ -129,11 +127,8 @@
                 <EditText
                     android:id="@+id/editTextEmail"
                     style="@style/EditText"
-
                     android:hint="email@email.com"
-
-                    android:inputType="textEmailAddress"
-                    android:text="neto@email.com" />
+                    android:inputType="textEmailAddress" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
@@ -154,12 +149,9 @@
                 <EditText
                     android:id="@+id/editTextWhatsapp"
                     style="@style/EditText"
-
                     android:hint="(00) 91234-5678"
-
                     android:inputType="number"
-                    android:maxLength="15"
-                    android:text="(00) 91234-5678" />
+                    android:maxLength="15" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
@@ -180,11 +172,8 @@
                 <EditText
                     android:id="@+id/editTextDataNasc"
                     style="@style/EditText"
-
                     android:hint="00/00/0000"
-
-                    android:inputType="datetime"
-                    android:text="01/01/2022" />
+                    android:inputType="datetime" />
 
                 <TextView
                     style="@style/textViewTituloForm"
@@ -211,11 +200,8 @@
                 <EditText
                     android:id="@+id/editTextSenha"
                     style="@style/EditText"
-
                     android:hint="••••••••••••"
-
-                    android:inputType="textPassword"
-                    android:text="555555" />
+                    android:inputType="textPassword" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
@@ -236,11 +222,8 @@
                 <EditText
                     android:id="@+id/editTextConfSenha"
                     style="@style/EditText"
-
                     android:hint="••••••••••••"
-
-                    android:inputType="textPassword"
-                    android:text="555555" />
+                    android:inputType="textPassword" />
 
                 <TextView
                     android:id="@+id/textViewCamposObg"

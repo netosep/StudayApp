@@ -4,6 +4,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
+import java.util.Arrays;
+
 /***********************************************************
  *          Mascara para EditText adaptada                 *
  *  Autor: https://pt.stackoverflow.com/users/35406/viana  *
@@ -24,7 +26,8 @@ public abstract class Mask {
                     return;
                 }
                 int i = 0;
-                for (char m : mask.toCharArray()) {
+                char[] charArray = mask.toCharArray();
+                for (char m : charArray) {
                     if (m != '#' && str.length() > oldTxt.length()) {
                         maskCurrent += m;
                         continue;
@@ -44,6 +47,13 @@ public abstract class Mask {
             public void afterTextChanged(Editable s) {}
         };
     }
+
+    public static String maskCelular(String text) {
+        return "(" + text.substring(0, 2) + ") " +
+                text.substring(2, 7) + "-" +
+                text.substring(7, 11);
+    }
+
     public static String unmask(String string) {
         return string.replaceAll("[.]", "")
                      .replaceAll("[-]", "")

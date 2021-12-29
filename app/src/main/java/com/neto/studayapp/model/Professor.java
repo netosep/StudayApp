@@ -6,10 +6,12 @@ import java.util.List;
 
 public class Professor implements Serializable {
 
+    private String uuidProfessor;
     private String nomeCompleto;
     private String whatsapp;
     private Date dataNascimento;
     private String sexo;
+    private Double valorAula;
     private String descricao;
     private String biografia;
     private String urlFotoPerfil;
@@ -29,6 +31,14 @@ public class Professor implements Serializable {
     }
 
     public Professor() {}
+
+    public String getUuidProfessor() {
+        return uuidProfessor;
+    }
+
+    public void setUuidProfessor(String uuidProfessor) {
+        this.uuidProfessor = uuidProfessor;
+    }
 
     public String getNomeCompleto() {
         return nomeCompleto;
@@ -56,6 +66,14 @@ public class Professor implements Serializable {
 
     public String getSexo() {
         return sexo;
+    }
+
+    public Double getValorAula() {
+        return valorAula;
+    }
+
+    public void setValorAula(Double valorAula) {
+        this.valorAula = valorAula;
     }
 
     public void setSexo(String sexo) {

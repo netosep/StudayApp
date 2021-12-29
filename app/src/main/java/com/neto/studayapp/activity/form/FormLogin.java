@@ -44,8 +44,14 @@ public class FormLogin extends AppCompatActivity {
 
         buttonSubmit.setOnClickListener(view -> {
             if (formularioIsValid()) fazerLogin();
+            buttonSubmit.setEnabled(false);
         });
-        textTelaCadastro.setOnClickListener(view -> startActivity(new Intent(this, EscolhaCadastro.class)));
+
+        textTelaCadastro.setOnClickListener(view -> {
+            startActivity(new Intent(this, EscolhaCadastro.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            finish();
+        });
     }
 
     @Override
@@ -103,6 +109,7 @@ public class FormLogin extends AppCompatActivity {
                 String uuid = Objects.requireNonNull(Objects.requireNonNull(authResultTask.getResult()).getUser()).getUid();
                 verificaNivelConta(uuid);
             } else {
+                buttonSubmit.setEnabled(true);
                 try {
                     throw Objects.requireNonNull(task.getException());
                 } catch (FirebaseAuthInvalidCredentialsException | FirebaseAuthInvalidUserException err) {
@@ -128,12 +135,13 @@ public class FormLogin extends AppCompatActivity {
     private void verificaNivelConta(String uuid) {
         new Handler().postDelayed(() -> {
             FirebaseFirestore database = FirebaseFirestore.getInstance();
-            DocumentReference dfAluno = database.collection("aluno").document(uuid);
-            DocumentReference dfProfessor = database.collection("professor").document(uuid);
+            DocumentReference dfAluno = database.collection("alunos").document(uuid);
+            DocumentReference dfProfessor = database.collection("professores").document(uuid);
 
             dfAluno.get().addOnSuccessListener(documentSnapshot -> {
                 if (documentSnapshot.get("nivelAcesso") != null) {
                     startActivity(new Intent(FormLogin.this, Professores.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     finish();
                 }
             });
@@ -141,6 +149,7 @@ public class FormLogin extends AppCompatActivity {
             dfProfessor.get().addOnSuccessListener(documentSnapshot -> {
                 if (documentSnapshot.get("nivelAcesso") != null) {
                     startActivity(new Intent(FormLogin.this, Disciplinas.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     finish();
                 }
             });

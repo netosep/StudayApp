@@ -13,10 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudayApp">
         <activity
+            android:name=".activity.professor.MinhaContaProfessor"
+            android:exported="false" />
+        <activity
+            android:name=".activity.aluno.MinhaContaAluno"
+            android:exported="false" />
+        <activity
             android:name=".activity.misc.Loading"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -43,7 +50,7 @@
             android:exported="false" />
         <activity
             android:name=".activity.form.FormLogin"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>

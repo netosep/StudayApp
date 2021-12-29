@@ -35,18 +35,17 @@ import java.util.Objects;
 public class FormCadastroProfessor extends AppCompatActivity {
 
     private EditText nomeSobrenome, email, whatsapp, dataNascimento;
-    private EditText descricao, biografia, senha, confirmSenha;
+    private EditText descricao, biografia, valor, senha, confirmSenha;
     private Spinner sexo;
     // foto de perfil
     private Button buttonSubmit;
-    private TextView alertNome, alertEmail, alertWhatsapp, alertDataNasc, alertSexo;
+    private TextView alertNome, alertEmail, alertWhatsapp, alertDataNasc, alertSexo, alertValor;
     private TextView alertDescricao, alertBiografia, alertFotoPerfil, alertSenha, alertConfSenha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_cadastro_professor);
-        setSpinner();
         iniciarComponentes();
 
         // mascaras para o EditText de telefone e data
@@ -66,15 +65,16 @@ public class FormCadastroProfessor extends AppCompatActivity {
         });
     }
 
-    private void setSpinner() {
-        String[] valores = getResources().getStringArray(R.array.sexo);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, valores);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sexo.setAdapter(adapter);
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(FormCadastroProfessor.this, EscolhaCadastro.class));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        finish();
     }
 
     public void voltar(View view) {
         startActivity(new Intent(FormCadastroProfessor.this, EscolhaCadastro.class));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         finish();
     }
 
@@ -84,6 +84,7 @@ public class FormCadastroProfessor extends AppCompatActivity {
         whatsapp = findViewById(R.id.editTextWhatsapp);
         dataNascimento = findViewById(R.id.editTextDataNasc);
         sexo = findViewById(R.id.spinnerSexo);
+        valor = findViewById(R.id.editTextValor);
         descricao = findViewById(R.id.editTextDescricao);
         biografia = findViewById(R.id.editTextBiografia);
         // foto de perfil
@@ -95,17 +96,26 @@ public class FormCadastroProfessor extends AppCompatActivity {
         alertWhatsapp = findViewById(R.id.textViewWhatsappAlert);
         alertDataNasc = findViewById(R.id.textViewDataNascAlert);
         alertSexo = findViewById(R.id.textViewSexoAlert);
+        alertValor = findViewById(R.id.textViewValorAlert);
         alertDescricao = findViewById(R.id.textViewDescricaoAlert);
         alertBiografia = findViewById(R.id.textViewBiografiaAlert);
         alertFotoPerfil = findViewById(R.id.textViewFotoAlert);
         alertSenha = findViewById(R.id.textViewSenhaAlert);
         alertConfSenha = findViewById(R.id.textViewConfSenhaAlert);
+        setSpinner();
+    }
+
+    private void setSpinner() {
+        String[] valores = getResources().getStringArray(R.array.sexo);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, valores);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sexo.setAdapter(adapter);
     }
 
     private boolean formularioIsValid() {
 
         boolean nomeValido = false, emailValido = false, whatsappValido = false, dataValido = false, descricaoValido = false;
-        boolean senhaValido = false, confSenhaValido = false, sexoValido = false, biografiaValido = false, formValido = false;
+        boolean senhaValido = false, confSenhaValido = false, sexoValido = false, valorValido = false, biografiaValido = false, formValido = false;
         Validator validator = new Validator();
 
         if (validator.nomeIsValid(nomeSobrenome)) {
@@ -146,6 +156,14 @@ public class FormCadastroProfessor extends AppCompatActivity {
         } else {
             alertSexo.setVisibility(View.VISIBLE);
             alertSexo.setText(validator.getMsgSelect());
+        }
+
+        if (validator.valorIsValid(valor)) {
+            alertValor.setVisibility(View.INVISIBLE);
+            valorValido = true;
+        } else {
+            alertValor.setVisibility(View.VISIBLE);
+            alertValor.setText(validator.getMsgValor());
         }
 
         if (validator.descricaoIsValid(descricao)) {
@@ -190,18 +208,20 @@ public class FormCadastroProfessor extends AppCompatActivity {
             }
         }
 
-        return nomeValido && emailValido && sexoValido && dataValido &&
+        return nomeValido && emailValido && sexoValido && dataValido && valorValido &&
                 whatsappValido && descricaoValido && biografiaValido && formValido;
     }
 
     @SuppressLint("SimpleDateFormat")
     private void cadastrarProfessor() throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        // criando um objeto professor para ser adc ao banco
         Professor professor = new Professor();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         professor.setNomeCompleto(nomeSobrenome.getText().toString());
         professor.setWhatsapp(Mask.unmask(whatsapp.getText().toString()));
         professor.setDataNascimento(dataNascimento.getText().toString().isEmpty() ? null : sdf.parse(dataNascimento.getText().toString()));
         professor.setSexo(sexo.getSelectedItem().toString());
+        professor.setValorAula(Double.parseDouble(valor.getText().toString().replaceAll("[,]", ".")));
         professor.setDescricao(descricao.getText().toString());
         professor.setBiografia(biografia.getText().toString());
         //professor.setUrlFotoPerfil();
@@ -210,12 +230,17 @@ public class FormCadastroProfessor extends AppCompatActivity {
         String emailString = email.getText().toString();
         String senhaString = senha.getText().toString();
 
+        // criando um novo usuário pelo firebase auth
         Task<AuthResult> authResultTask = FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailString, senhaString);
         authResultTask.addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
+                // apos criar o usuário sair
+                FirebaseAuth.getInstance().signOut();
+                // criando uma collection para um professor no banco
                 FirebaseFirestore database = FirebaseFirestore.getInstance();
                 FirebaseUser user = Objects.requireNonNull(authResultTask.getResult()).getUser();
-                DocumentReference df = database.collection("professor").document(Objects.requireNonNull(user).getUid());
+                professor.setUuidProfessor(Objects.requireNonNull(user).getUid());
+                DocumentReference df = database.collection("professores").document(Objects.requireNonNull(user).getUid());
                 df.set(professor);
 
                 //

@@ -2,17 +2,9 @@ package com.neto.studayapp.model;
 
 public class Disponibilidade {
 
-    private Integer idDisponibilidade;
     private String diaDaSemana;
     private String horarioInicio;
     private String horarioFinal;
-
-    public Disponibilidade(Integer idDisponibilidade, String diaDaSemana, String horarioInicio, String horarioFinal) {
-        this.idDisponibilidade = idDisponibilidade;
-        this.diaDaSemana = diaDaSemana;
-        this.horarioInicio = horarioInicio;
-        this.horarioFinal = horarioFinal;
-    }
 
     public Disponibilidade(String diaDaSemana, String horarioInicio, String horarioFinal) {
         this.diaDaSemana = diaDaSemana;
@@ -21,14 +13,6 @@ public class Disponibilidade {
     }
 
     public Disponibilidade() {}
-
-    public Integer getIdDisponibilidade() {
-        return idDisponibilidade;
-    }
-
-    public void setIdDisponibilidade(Integer idDisponibilidade) {
-        this.idDisponibilidade = idDisponibilidade;
-    }
 
     public String getDiaDaSemana() {
         return diaDaSemana;

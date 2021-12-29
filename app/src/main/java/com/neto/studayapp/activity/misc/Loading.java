@@ -27,7 +27,7 @@ public class Loading extends AppCompatActivity {
 
         TextView textoCarregamento = findViewById(R.id.textViewLoading);
 
-        if(getIntent().hasExtra("mensagem")) {
+        if (getIntent().hasExtra("mensagem")) {
             textoCarregamento.setText(getIntent().getExtras().getString("mensagem"));
         } else {
             textoCarregamento.setText(R.string.loading);
@@ -35,10 +35,11 @@ public class Loading extends AppCompatActivity {
 
         new Handler().postDelayed(() -> {
             FirebaseUser usuarioAtual = FirebaseAuth.getInstance().getCurrentUser();
-            if(usuarioAtual != null) {
+            if (usuarioAtual != null) {
                 verificaNivelConta(usuarioAtual.getUid());
             } else {
                 startActivity(new Intent(Loading.this, FormLogin.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
             }
         }, 1500);
@@ -48,22 +49,28 @@ public class Loading extends AppCompatActivity {
         new Handler().postDelayed(() -> {
 
             FirebaseFirestore database = FirebaseFirestore.getInstance();
-            DocumentReference dfAluno = database.collection("aluno").document(uuid);
-            DocumentReference dfProfessor = database.collection("professor").document(uuid);
+            DocumentReference dfAluno = database.collection("alunos").document(uuid);
+            DocumentReference dfProfessor = database.collection("professores").document(uuid);
 
-            dfAluno.get().addOnSuccessListener(documentSnapshot -> {
-                if(documentSnapshot.get("nivelAcesso") != null) {
+            dfAluno.get().addOnSuccessListener(dsAluno -> {
+                if (dsAluno.get("nivelAcesso") != null) {
                     startActivity(new Intent(Loading.this, Professores.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     finish();
+                } else {
+                    dfProfessor.get().addOnSuccessListener(dsProfessor -> {
+                        if (dsProfessor.get("nivelAcesso") != null) {
+                            startActivity(new Intent(Loading.this, Disciplinas.class));
+                        } else {
+                            startActivity(new Intent(Loading.this, FormLogin.class));
+                        }
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        finish();
+                    });
                 }
             });
 
-            dfProfessor.get().addOnSuccessListener(documentSnapshot -> {
-                if(documentSnapshot.get("nivelAcesso") != null) {
-                    startActivity(new Intent(Loading.this, Disciplinas.class));
-                    finish();
-                }
-            });
+
 
         }, 1000);
     }

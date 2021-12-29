@@ -4,13 +4,13 @@ import java.util.List;
 
 public class Disciplina {
 
-    private Integer idDisciplina;
+    private String uuidProfessor;
     private String nome;
     private double custo;
     private List<Disponibilidade> disponibilidade;
 
-    public Disciplina(Integer idDisciplina, String nome, double custo, List<Disponibilidade> disponibilidade) {
-        this.idDisciplina = idDisciplina;
+    public Disciplina(String uuidProfessor, String nome, double custo, List<Disponibilidade> disponibilidade) {
+        this.uuidProfessor = uuidProfessor;
         this.nome = nome;
         this.custo = custo;
         this.disponibilidade = disponibilidade;
@@ -24,12 +24,12 @@ public class Disciplina {
 
     public Disciplina() {}
 
-    public Integer getIdDisciplina() {
-        return idDisciplina;
+    public String getUuidProfessor() {
+        return uuidProfessor;
     }
 
-    public void setIdDisciplina(Integer idDisciplina) {
-        this.idDisciplina = idDisciplina;
+    public void setUuidProfessor(String uuidProfessor) {
+        this.uuidProfessor = uuidProfessor;
     }
 
     public String getNome() {

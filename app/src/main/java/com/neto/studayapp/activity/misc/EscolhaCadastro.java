@@ -25,24 +25,35 @@ public class EscolhaCadastro extends AppCompatActivity {
         iniciarComponentes();
 
         cardEstudar.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), FormCadastroAluno.class));
+            startActivity(new Intent(this, FormCadastroAluno.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
         });
 
         cardDarAulas.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), FormCadastroProfessor.class));
+            startActivity(new Intent(this, FormCadastroProfessor.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
         });
 
         jaPossuoConta.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), FormLogin.class));
+            startActivity(new Intent(this, FormLogin.class));
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             finish();
         });
 
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(EscolhaCadastro.this, FormLogin.class));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        finish();
+    }
+
     public void voltar(View view) {
         startActivity(new Intent(EscolhaCadastro.this, FormLogin.class));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         finish();
     }
 
