@@ -1,9 +1,11 @@
 package com.neto.studayapp.model;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Disciplina {
 
+    private String uuid;
     private String uuidProfessor;
     private String nome;
     private double custo;
@@ -22,7 +24,17 @@ public class Disciplina {
         this.disponibilidade = disponibilidade;
     }
 
-    public Disciplina() {}
+    public Disciplina() {
+        this.uuid = String.valueOf(UUID.randomUUID());
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     public String getUuidProfessor() {
         return uuidProfessor;

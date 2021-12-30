@@ -243,16 +243,15 @@ public class CadastroDisciplina extends AppCompatActivity implements NavigationV
         disciplina.setDisponibilidade(disponibilidades);
 
         FirebaseFirestore database = FirebaseFirestore.getInstance();
-        Task<DocumentReference> docRefTask = database.collection("disciplinas").add(disciplina);
-
-        docRefTask.addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
+        DocumentReference df = database.collection("disciplinas").document(disciplina.getUuid());
+        df.set(disciplina).addOnCompleteListener(task -> {
+            if (task.isComplete()) {
                 Toast.makeText(getApplicationContext(), "Sucesso!", Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     throw Objects.requireNonNull(task.getException());
                 } catch (Exception err) {
-                    Log.d("teste", err.getMessage());
+                    //Log.d("teste", err.getMessage());
                     Toast.makeText(getApplicationContext(), err.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }

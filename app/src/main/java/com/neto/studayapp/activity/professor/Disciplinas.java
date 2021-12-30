@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.neto.studayapp.R;
 import com.google.android.material.navigation.NavigationView;
 import com.neto.studayapp.activity.misc.Loading;
@@ -146,7 +147,8 @@ public class Disciplinas extends AppCompatActivity implements NavigationView.OnN
         disciplinaAdapter = new DisciplinaAdapter(disciplinas);
         recyclerView.setAdapter(disciplinaAdapter);
 
-        database.collection("disciplinas").whereEqualTo("uuidProfessor", uuidProfessor).addSnapshotListener((value, error) -> {
+        Query query = database.collection("disciplinas").whereEqualTo("uuidProfessor", uuidProfessor);
+        query.addSnapshotListener((value, error) -> {
             if (value != null) {
                 new Handler().postDelayed(() -> {
                     if (value.isEmpty()) {

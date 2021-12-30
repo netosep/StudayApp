@@ -151,37 +151,32 @@ public class Professores extends AppCompatActivity implements NavigationView.OnN
         database.collection("professores").addSnapshotListener((ssProfessores, errorProfessor) -> {
             if (ssProfessores != null) {
                 for (DocumentChange dcProfessor : ssProfessores.getDocumentChanges()) {
-                    // professores
-                    if (dcProfessor.getType() == DocumentChange.Type.ADDED) {
-                        professores.add(dcProfessor.getDocument().toObject(Professor.class));
-                    }
-                    if (dcProfessor.getType() == DocumentChange.Type.REMOVED) {
-                         professores.remove(dcProfessor.getDocument().toObject(Professor.class));
-                    }
-
                     String uuidProfessor = Objects.requireNonNull(dcProfessor.getDocument().get("uuidProfessor")).toString();
                     Query query = database.collection("disciplinas").whereEqualTo("uuidProfessor", uuidProfessor);
                     query.addSnapshotListener((ssDisciplinas, errorDisciplina) -> {
                         if (ssDisciplinas != null) {
                             for (DocumentChange dcDisciplina : ssDisciplinas.getDocumentChanges()) {
+                                // professores
+                                if (dcProfessor.getType() == DocumentChange.Type.ADDED) {
+                                    professores.add(dcProfessor.getDocument().toObject(Professor.class));
+                                }
+                                // if (dcProfessor.getType() == DocumentChange.Type.REMOVED) {
+                                //     professores.remove(dcProfessor.getDocument().toObject(Professor.class));
+                                // }
                                 // disciplinas
                                 if (dcDisciplina.getType() == DocumentChange.Type.ADDED) {
                                     disciplinas.add(dcDisciplina.getDocument().toObject(Disciplina.class));
                                 }
                                 // if (dcDisciplina.getType() == DocumentChange.Type.REMOVED) {
                                 //    disciplinas.remove(dcDisciplina.getDocument().toObject(Disciplina.class));
-                                //}
+                                // }
                                 professorAdapter.notifyDataSetChanged();
                             }
                         }
                     });
 
-
                 }
             }
-
-            Log.d("teste", "quantidade prof " + String.valueOf(professorAdapter.getItemCount()));
-            //Log.d("teste", "quantidade disc " + String.valueOf(disciplinas.size()));
         });
 
     }

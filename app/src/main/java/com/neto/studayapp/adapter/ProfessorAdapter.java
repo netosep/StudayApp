@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.neto.studayapp.R;
 import com.neto.studayapp.model.Disciplina;
 import com.neto.studayapp.model.Professor;
@@ -77,10 +78,13 @@ public class ProfessorAdapter extends RecyclerView.Adapter {
         LinearLayout buttonWhatsapp;
         ImageButton buttonFavorito, buttonAvaliar;
         Professor professor;
+        FirebaseFirestore database;
 
         public ViewHolderClass(@NonNull View itemView) {
             super(itemView);
             iniciarComponentes(itemView);
+
+            database = FirebaseFirestore.getInstance();
 
             buttonWhatsapp.setOnClickListener(view -> {
                 Toast.makeText(view.getContext(), professor.getNomeCompleto(), Toast.LENGTH_SHORT).show();
