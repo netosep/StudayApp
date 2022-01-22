@@ -14,6 +14,7 @@ public class Validator {
     private String msgEmail;
     private String msgWhatsApp;
     private String msgData;
+    private String msgDia;
     private String msgHora;
     private String msgValor;
     private String msgSelect;
@@ -148,6 +149,17 @@ public class Validator {
         }
     }
 
+    public boolean diaIsBiggestOrEquals(Spinner diaAte, Spinner diaDe) {
+        int diaAteInt = diaAte.getSelectedItemPosition();
+        int diaDeInt = diaDe.getSelectedItemPosition();
+        if (diaAteInt >= diaDeInt) {
+            return true;
+        } else {
+            this.setMsgDia("Dia menor que o anterior");
+            return false;
+        }
+    }
+
     public boolean descricaoIsValid(EditText descricao) {
         String stringDescricao = descricao.getText().toString();
         if (stringDescricao.isEmpty()) {
@@ -248,6 +260,14 @@ public class Validator {
 
     public String getMsgData() {
         return msgData;
+    }
+
+    public String getMsgDia() {
+        return msgDia;
+    }
+
+    public void setMsgDia(String msgDia) {
+        this.msgDia = msgDia;
     }
 
     public void setMsgData(String msgData) {

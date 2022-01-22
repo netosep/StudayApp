@@ -5,12 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +45,8 @@ public class FormCadastroAluno extends AppCompatActivity {
         // mascaras para o EditText de telefone e data
         whatsapp.addTextChangedListener(Mask.insert("(##) #####-####", whatsapp));
         dataNascimento.addTextChangedListener(Mask.insert("##/##/####", dataNascimento));
+
+
 
         buttonSubmit.setOnClickListener(view -> {
             if (formularioIsValid()) {

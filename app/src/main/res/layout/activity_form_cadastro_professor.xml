@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/backgroud_main"
-        android:paddingBottom="15dp"
         tools:context=".activity.form.FormCadastroProfessor">
 
         <View
@@ -32,7 +31,7 @@
 
         <androidx.constraintlayout.utils.widget.ImageFilterButton
             android:id="@+id/imgBack"
-            style="@style/Button"
+            style="@style/NewButton"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:backgroundTint="@color/light_green"
@@ -277,27 +276,6 @@
                     android:hint="Fale um pouco sobre você..."
                     android:inputType="text"
                     android:maxLength="450" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
-
-                    <TextView
-                        android:id="@+id/textViewFoto"
-                        style="@style/textViewFormCadastro"
-                        android:text="Foto de perfil"
-                        tools:ignore="MissingConstraints" />
-
-                    <TextView
-                        android:id="@+id/textViewFotoAlert"
-                        style="@style/textViewFormCadastroAlert"
-                        android:text="Nome inválido!"
-                        tools:ignore="MissingConstraints" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <EditText
-                    android:id="@+id/editTextFoto"
-                    style="@style/EditText"
-                    android:backgroundTint="@color/white_smoke" />
 
                 <TextView
                     style="@style/textViewTituloForm"

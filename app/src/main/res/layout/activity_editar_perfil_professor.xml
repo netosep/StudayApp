@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/backgroud_main"
-        tools:context=".activity.form.FormCadastroAluno">
+        tools:context=".activity.form.FormCadastroProfessor">
 
         <View
             android:id="@+id/tituloContainer"
@@ -40,15 +40,13 @@
             app:layout_constraintStart_toStartOf="@id/topIcones"
             app:layout_constraintTop_toTopOf="@id/topIcones" />
 
-        <!--    <androidx.constraintlayout.utils.widget.ImageFilterButton-->
-        <!--        android:id="@+id/imgMenu"-->
-        <!--        android:layout_width="35dp"-->
-        <!--        android:layout_height="35dp"-->
-        <!--        android:scaleType="fitCenter"-->
-        <!--        android:backgroundTint="@color/light_green"-->
-        <!--        android:src="@drawable/ic_menu"-->
-        <!--        app:layout_constraintTop_toTopOf="@id/topIcones"-->
-        <!--        app:layout_constraintEnd_toEndOf="@id/topIcones" />-->
+        <!--        <ImageView-->
+        <!--            android:id="@+id/imgMenu"-->
+        <!--            android:layout_width="35dp"-->
+        <!--            android:layout_height="35dp"-->
+        <!--            android:src="@drawable/ic_menu"-->
+        <!--            app:layout_constraintTop_toTopOf="@id/topIcones"-->
+        <!--            app:layout_constraintEnd_toEndOf="@id/topIcones" />-->
 
         <TextView
             android:id="@+id/textViewTitulo"
@@ -58,11 +56,12 @@
             android:layout_marginTop="30dp"
             android:layout_marginRight="25dp"
             android:fontFamily="@font/poppins"
-            android:text="Insira seus dados"
+            android:text="Atualize seus dados"
             android:textColor="@color/hint_color"
             android:textSize="22sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/topIcones" />
+            app:layout_constraintTop_toBottomOf="@id/topIcones"
+            tools:ignore="HardcodedText" />
 
         <androidx.cardview.widget.CardView
             style="@style/cardViewForm"
@@ -80,9 +79,11 @@
 
                 <TextView
                     style="@style/textViewTituloForm"
-                    android:text="Dados pessoais" />
+                    android:text="Dados pessoais"
+                    tools:ignore="HardcodedText" />
 
-                <ImageView style="@style/imageViewTituloForm" />
+                <ImageView style="@style/imageViewTituloForm"
+                    tools:ignore="ContentDescription" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
@@ -90,13 +91,13 @@
                         android:id="@+id/textViewNomeSobrenome"
                         style="@style/textViewFormCadastro"
                         android:text="Nome e Sobrenome *"
-                        tools:ignore="MissingConstraints" />
+                        tools:ignore="HardcodedText,MissingConstraints" />
 
                     <TextView
                         android:id="@+id/textViewNomeSobrenomeAlert"
                         style="@style/textViewFormCadastroAlert"
                         android:text="Nome inválido!"
-                        tools:ignore="MissingConstraints" />
+                        tools:ignore="HardcodedText,MissingConstraints" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -105,7 +106,9 @@
                     style="@style/EditText"
                     android:hint="Nome Sobrenome"
                     android:inputType="textPersonName"
-                    android:maxLength="50" />
+                    android:maxLength="35"
+                    tools:ignore="HardcodedText"
+                    android:importantForAutofill="no" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
@@ -113,12 +116,12 @@
                         android:id="@+id/textViewEmail"
                         style="@style/textViewFormCadastro"
                         android:text="Seu e-mail *"
-                        tools:ignore="MissingConstraints" />
+                        tools:ignore="HardcodedText,MissingConstraints" />
 
                     <TextView
                         android:id="@+id/textViewEmailAlert"
                         style="@style/textViewFormCadastroAlert"
-                        android:text="E-mail inválido!"
+                        android:text="Nome inválido!"
                         tools:ignore="MissingConstraints" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -127,20 +130,21 @@
                     android:id="@+id/editTextEmail"
                     style="@style/EditText"
                     android:hint="email@email.com"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:maxLength="50" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
                     <TextView
                         android:id="@+id/textViewWhatsapp"
                         style="@style/textViewFormCadastro"
-                        android:text="WhatsApp"
+                        android:text="WhatsApp *"
                         tools:ignore="MissingConstraints" />
 
                     <TextView
                         android:id="@+id/textViewWhatsappAlert"
                         style="@style/textViewFormCadastroAlert"
-                        android:text="WhatsApp inválido!"
+                        android:text="Nome inválido!"
                         tools:ignore="MissingConstraints" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -163,7 +167,7 @@
                     <TextView
                         android:id="@+id/textViewDataNascAlert"
                         style="@style/textViewFormCadastroAlert"
-                        android:text="Data inválida!"
+                        android:text="Nome inválido!"
                         tools:ignore="MissingConstraints" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -172,57 +176,111 @@
                     android:id="@+id/editTextDataNasc"
                     style="@style/EditText"
                     android:hint="00/00/0000"
-                    android:inputType="datetime" />
+                    android:inputType="datetime"
+                    android:maxLength="10" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
+
+                    <TextView
+                        android:id="@+id/textViewSexo"
+                        style="@style/textViewFormCadastro"
+                        android:text="Sexo *"
+                        tools:ignore="MissingConstraints" />
+
+                    <TextView
+                        android:id="@+id/textViewSexoAlert"
+                        style="@style/textViewFormCadastroAlert"
+                        android:text="Nome inválido!"
+                        tools:ignore="MissingConstraints" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Spinner
+                    android:id="@+id/spinnerSexo"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     style="@style/textViewTituloForm"
-                    android:text="Segurança" />
+                    android:text="Valores" />
 
                 <ImageView style="@style/imageViewTituloForm" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
                     <TextView
-                        android:id="@+id/textViewSenha"
+                        android:id="@+id/textViewValor"
                         style="@style/textViewFormCadastro"
-                        android:text="Senha *"
+                        android:text="Custo por hora de aula (R$) *"
                         tools:ignore="MissingConstraints" />
 
                     <TextView
-                        android:id="@+id/textViewSenhaAlert"
+                        android:id="@+id/textViewValorAlert"
                         style="@style/textViewFormCadastroAlert"
-                        android:text="Senha inválida!"
+                        android:text="Nome inválido!"
                         tools:ignore="MissingConstraints" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <EditText
-                    android:id="@+id/editTextSenha"
+                    android:id="@+id/editTextValor"
                     style="@style/EditText"
-                    android:hint="••••••••••••"
-                    android:inputType="textPassword" />
+                    android:hint="00,00"
+                    android:inputType="numberDecimal"
+                    android:maxLength="7" />
+
+                <TextView
+                    style="@style/textViewTituloForm"
+                    android:text="Sobre você" />
+
+                <ImageView style="@style/imageViewTituloForm" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
                     <TextView
-                        android:id="@+id/textViewConfSenha"
+                        android:id="@+id/textViewDescricao"
                         style="@style/textViewFormCadastro"
-                        android:text="Confirmar Senha *"
+                        android:text="Breve descrição"
                         tools:ignore="MissingConstraints" />
 
                     <TextView
-                        android:id="@+id/textViewConfSenhaAlert"
+                        android:id="@+id/textViewDescricaoAlert"
                         style="@style/textViewFormCadastroAlert"
-                        android:text="Senha inválida!"
+                        android:text="Nome inválido!"
                         tools:ignore="MissingConstraints" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <EditText
-                    android:id="@+id/editTextConfSenha"
+                    android:id="@+id/editTextDescricao"
                     style="@style/EditText"
-                    android:hint="••••••••••••"
-                    android:inputType="textPassword" />
+                    android:hint="Ex.: Mestrado em matemática..."
+                    android:inputType="text"
+                    android:maxLength="55" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
+
+                    <TextView
+                        android:id="@+id/textViewBiografia"
+                        style="@style/textViewFormCadastro"
+                        android:text="Sua biografia *"
+                        tools:ignore="MissingConstraints" />
+
+                    <TextView
+                        android:id="@+id/textViewBiografiaAlert"
+                        style="@style/textViewFormCadastroAlert"
+                        android:text="Nome inválido!"
+                        tools:ignore="MissingConstraints" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:id="@+id/editTextBiografia"
+                    style="@style/EditText"
+                    android:hint="Fale um pouco sobre você..."
+                    android:inputType="text"
+                    android:maxLength="450" />
 
                 <TextView
                     android:id="@+id/textViewCamposObg"
@@ -230,14 +288,13 @@
                     android:text="Os campos com * são obrigatórios!" />
 
                 <Button
-                    android:id="@+id/buttonSubmitCadastro"
+                    android:id="@+id/buttonUpdateCadastro"
                     style="@style/ButtonSubmit"
-                    android:text="Salvar Cadastro" />
+                    android:text="Atualizar Perfil" />
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.core.widget.NestedScrollView>

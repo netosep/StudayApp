@@ -53,7 +53,7 @@
 
                     <androidx.constraintlayout.utils.widget.ImageFilterButton
                         android:id="@+id/imgBack"
-                        style="@style/Button"
+                        style="@style/NewButton"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:backgroundTint="@color/light_green"
@@ -64,6 +64,7 @@
 
                     <androidx.appcompat.widget.Toolbar
                         android:id="@+id/toobarMenu"
+                        style="@style/NewButton"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         app:layout_constraintEnd_toEndOf="@id/topIcones"
@@ -81,6 +82,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardViewForm"
+                    android:layout_height="match_parent"
                     style="@style/cardViewForm"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -119,46 +121,22 @@
                             android:id="@+id/spinnerDisciplina"
                             style="@style/EditText" />
 
-                        <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
-
-                            <TextView
-                                android:id="@+id/textViewValor"
-                                style="@style/textViewFormCadastro"
-                                android:text="Custo por hora de aula (R$) *"
-                                tools:ignore="MissingConstraints" />
-
-                            <TextView
-                                android:id="@+id/textViewValorAlert"
-                                style="@style/textViewFormCadastroAlert"
-                                android:text="Nome inválido!"
-                                tools:ignore="MissingConstraints" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <EditText
-                            android:id="@+id/editTextValor"
-                            style="@style/EditText"
-                            android:hint="00,00"
-                            android:inputType="numberDecimal"
-                            android:maxLength="7"
-                            android:text="15,00" />
-
                         <TextView
                             style="@style/textViewTituloForm"
-                            android:text="Sua disponibilidade" />
+                            android:text="Dia(s) da semana" />
 
                         <ImageView style="@style/imageViewTituloForm" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
                             <TextView
-                                android:id="@+id/textViewDiaSemana"
+                                android:id="@+id/textViewDiaDe"
                                 style="@style/textViewFormCadastro"
-                                android:text="Dia da semana *"
+                                android:text="De *"
                                 tools:ignore="MissingConstraints" />
 
                             <TextView
-                                android:id="@+id/textViewDiaSemanaAlert"
+                                android:id="@+id/textViewDiaDeAlert"
                                 style="@style/textViewFormCadastroAlert"
                                 android:text="Nome inválido!"
                                 tools:ignore="MissingConstraints" />
@@ -166,19 +144,45 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <Spinner
-                            android:id="@+id/spinnerDiaSemana"
+                            android:id="@+id/spinnerDiaDe"
                             style="@style/EditText" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
                             <TextView
-                                android:id="@+id/textViewDas"
+                                android:id="@+id/textViewDiaAte"
+                                style="@style/textViewFormCadastro"
+                                android:text="A *"
+                                tools:ignore="MissingConstraints" />
+
+                            <TextView
+                                android:id="@+id/textViewDiaAteAlert"
+                                style="@style/textViewFormCadastroAlert"
+                                android:text="Nome inválido!"
+                                tools:ignore="MissingConstraints" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <Spinner
+                            android:id="@+id/spinnerDiaAte"
+                            style="@style/EditText" />
+
+                        <TextView
+                            style="@style/textViewTituloForm"
+                            android:text="Horário" />
+
+                        <ImageView style="@style/imageViewTituloForm" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
+
+                            <TextView
+                                android:id="@+id/textViewHoraDas"
                                 style="@style/textViewFormCadastro"
                                 android:text="Das (hh:mm) *"
                                 tools:ignore="MissingConstraints" />
 
                             <TextView
-                                android:id="@+id/textViewDasAlert"
+                                android:id="@+id/textViewHoraDasAlert"
                                 style="@style/textViewFormCadastroAlert"
                                 android:text="Nome inválido!"
                                 tools:ignore="MissingConstraints" />
@@ -196,13 +200,13 @@
                         <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
                             <TextView
-                                android:id="@+id/textViewAte"
+                                android:id="@+id/textViewHoraAte"
                                 style="@style/textViewFormCadastro"
                                 android:text="Até (hh:mm) *"
                                 tools:ignore="MissingConstraints" />
 
                             <TextView
-                                android:id="@+id/textViewAteAlert"
+                                android:id="@+id/textViewHoraAteAlert"
                                 style="@style/textViewFormCadastroAlert"
                                 android:text="Nome inválido!"
                                 tools:ignore="MissingConstraints" />

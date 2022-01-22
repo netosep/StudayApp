@@ -8,6 +8,7 @@ public class Professor implements Serializable {
 
     private String uuidProfessor;
     private String nomeCompleto;
+    private String email;
     private String whatsapp;
     private Date dataNascimento;
     private String sexo;
@@ -18,8 +19,13 @@ public class Professor implements Serializable {
     private int nivelAcesso;
     private List<Avaliacao> avaliacoes;
 
-    public Professor(String nomeCompleto, String whatsapp, Date dataNascimento, String sexo, String descricao, String biografia, String urlFotoPerfil, int nivelAcesso, List<Avaliacao> avaliacoes) {
+    public Professor() {
+
+    }
+
+    public Professor(String nomeCompleto, String email, String whatsapp, Date dataNascimento, String sexo, String descricao, String biografia, String urlFotoPerfil, int nivelAcesso, List<Avaliacao> avaliacoes) {
         this.nomeCompleto = nomeCompleto;
+        this.email = email;
         this.whatsapp = whatsapp;
         this.dataNascimento = dataNascimento;
         this.sexo = sexo;
@@ -29,8 +35,6 @@ public class Professor implements Serializable {
         this.nivelAcesso = nivelAcesso;
         this.avaliacoes = avaliacoes;
     }
-
-    public Professor() {}
 
     public String getUuidProfessor() {
         return uuidProfessor;
@@ -46,6 +50,14 @@ public class Professor implements Serializable {
 
     public void setNomeCompleto(String nomeCompleto) {
         this.nomeCompleto = nomeCompleto;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getWhatsapp() {

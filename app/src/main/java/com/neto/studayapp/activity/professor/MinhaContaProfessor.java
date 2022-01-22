@@ -49,8 +49,11 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
         iniciarComponentes();
 
         buttonEditPerfil.setOnClickListener(view -> {
-            //listVerPerfil.setVisibility(View.GONE);
-            //buttonEditPerfil.setVisibility(View.INVISIBLE);
+            Intent intent = new Intent(this, EditarPerfilProfessor.class);
+            intent.putExtra("professor", professor);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            finish();
         });
 
         buttonEditSenha.setOnClickListener(view -> {
@@ -158,11 +161,12 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
 
     @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
     private void setCardProfessor(DocumentSnapshot ds) throws ParseException {
-        String emailString = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         DecimalFormat df = new DecimalFormat("#00.00");
         // populando o objeto professor
+        professor.setUuidProfessor(ds.getString("uuidProfessor"));
         professor.setNomeCompleto(ds.getString("nomeCompleto"));
+        professor.setEmail(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail());
         professor.setWhatsapp(ds.getString("whatsapp"));
         professor.setDataNascimento(ds.getDate("dataNascimento"));
         professor.setValorAula(ds.getDouble("valorAula"));
@@ -171,10 +175,10 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
         professor.setBiografia(ds.getString("biografia"));
         // carregando dados na view
         nomeCompleto.setText(professor.getNomeCompleto());
-        email.setText(emailString);
+        email.setText(professor.getEmail());
         whatsapp.setText(professor.getWhatsapp() == null ? "--" : Mask.maskCelular(professor.getWhatsapp()));
         dataNasc.setText(professor.getDataNascimento() == null ? "--" : sdf.format(professor.getDataNascimento()));
-        valor.setText("R$ " + df.format(professor.getValorAula()));
+        valor.setText("R$ " + df.format(professor.getValorAula()).replaceAll("[.]", ","));
         sexo.setText(professor.getSexo());
         descricao.setText(professor.getDescricao().isEmpty() ? "--" : professor.getDescricao());
         biografia.setText(professor.getBiografia());

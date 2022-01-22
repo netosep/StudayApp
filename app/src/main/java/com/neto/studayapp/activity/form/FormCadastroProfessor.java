@@ -37,10 +37,9 @@ public class FormCadastroProfessor extends AppCompatActivity {
     private EditText nomeSobrenome, email, whatsapp, dataNascimento;
     private EditText descricao, biografia, valor, senha, confirmSenha;
     private Spinner sexo;
-    // foto de perfil
     private Button buttonSubmit;
     private TextView alertNome, alertEmail, alertWhatsapp, alertDataNasc, alertSexo, alertValor;
-    private TextView alertDescricao, alertBiografia, alertFotoPerfil, alertSenha, alertConfSenha;
+    private TextView alertDescricao, alertBiografia, alertSenha, alertConfSenha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +98,6 @@ public class FormCadastroProfessor extends AppCompatActivity {
         alertValor = findViewById(R.id.textViewValorAlert);
         alertDescricao = findViewById(R.id.textViewDescricaoAlert);
         alertBiografia = findViewById(R.id.textViewBiografiaAlert);
-        alertFotoPerfil = findViewById(R.id.textViewFotoAlert);
         alertSenha = findViewById(R.id.textViewSenhaAlert);
         alertConfSenha = findViewById(R.id.textViewConfSenhaAlert);
         setSpinner();

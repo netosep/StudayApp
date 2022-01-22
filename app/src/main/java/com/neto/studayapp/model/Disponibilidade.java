@@ -2,39 +2,50 @@ package com.neto.studayapp.model;
 
 public class Disponibilidade {
 
-    private String diaDaSemana;
-    private String horarioInicio;
-    private String horarioFinal;
+    private String diaDe;
+    private String diaAte;
+    private String horaDas;
+    private String horaAte;
 
-    public Disponibilidade(String diaDaSemana, String horarioInicio, String horarioFinal) {
-        this.diaDaSemana = diaDaSemana;
-        this.horarioInicio = horarioInicio;
-        this.horarioFinal = horarioFinal;
+    public Disponibilidade() {
     }
 
-    public Disponibilidade() {}
-
-    public String getDiaDaSemana() {
-        return diaDaSemana;
+    public Disponibilidade(String diaDe, String diaAte, String horaDas, String horaAte) {
+        this.diaDe = diaDe;
+        this.diaAte = diaAte;
+        this.horaDas = horaDas;
+        this.horaAte = horaAte;
     }
 
-    public void setDiaDaSemana(String diaDaSemana) {
-        this.diaDaSemana = diaDaSemana;
+    public String getDiaDe() {
+        return diaDe;
     }
 
-    public String getHorarioInicio() {
-        return horarioInicio;
+    public void setDiaDe(String diaDe) {
+        this.diaDe = diaDe;
     }
 
-    public void setHorarioInicio(String horarioInicio) {
-        this.horarioInicio = horarioInicio;
+    public String getDiaAte() {
+        return diaAte;
     }
 
-    public String getHorarioFinal() {
-        return horarioFinal;
+    public void setDiaAte(String diaAte) {
+        this.diaAte = diaAte;
     }
 
-    public void setHorarioFinal(String horarioFinal) {
-        this.horarioFinal = horarioFinal;
+    public String getHoraDas() {
+        return horaDas;
+    }
+
+    public void setHoraDas(String horaDas) {
+        this.horaDas = horaDas;
+    }
+
+    public String getHoraAte() {
+        return horaAte;
+    }
+
+    public void setHoraAte(String horaAte) {
+        this.horaAte = horaAte;
     }
 }

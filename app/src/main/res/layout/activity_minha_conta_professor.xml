@@ -54,7 +54,7 @@
 
                     <androidx.constraintlayout.utils.widget.ImageFilterButton
                         android:id="@+id/imgBack"
-                        style="@style/Button"
+                        style="@style/NewButton"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:backgroundTint="@color/light_green"
@@ -65,6 +65,7 @@
 
                     <androidx.appcompat.widget.Toolbar
                         android:id="@+id/toobarMenu"
+                        style="@style/NewButton"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         app:layout_constraintEnd_toEndOf="@id/topIcones"

@@ -10,6 +10,7 @@
     <color name="light_green">#65FFE3</color>
     <color name="white_smoke">#F6F6F6</color>
     <color name="hint_color">#5C5C5C</color>
+    <color name="light_hint_color">#BEBEBE</color>
     <color name="text_color">#2C2C2C</color>
     <color name="link_color">#1400FF</color>
     <color name="success">#00FF00</color>

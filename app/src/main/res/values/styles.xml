@@ -207,4 +207,8 @@
         <item name="android:textColor">@color/text_color</item>
         <item name="android:textSize">17sp</item>
     </style>
+
+    <style name="editTextUpdatePerfil">
+
+    </style>
 </resources>

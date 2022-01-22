@@ -8,24 +8,17 @@ public class Disciplina {
     private String uuid;
     private String uuidProfessor;
     private String nome;
-    private double custo;
-    private List<Disponibilidade> disponibilidade;
-
-    public Disciplina(String uuidProfessor, String nome, double custo, List<Disponibilidade> disponibilidade) {
-        this.uuidProfessor = uuidProfessor;
-        this.nome = nome;
-        this.custo = custo;
-        this.disponibilidade = disponibilidade;
-    }
-
-    public Disciplina(String nome, double custo, List<Disponibilidade> disponibilidade) {
-        this.nome = nome;
-        this.custo = custo;
-        this.disponibilidade = disponibilidade;
-    }
+    private Disponibilidade disponibilidade;
 
     public Disciplina() {
-        this.uuid = String.valueOf(UUID.randomUUID());
+
+    }
+
+    public Disciplina(String uuid, String uuidProfessor, String nome, Disponibilidade disponibilidade) {
+        this.uuid = uuid;
+        this.uuidProfessor = uuidProfessor;
+        this.nome = nome;
+        this.disponibilidade = disponibilidade;
     }
 
     public String getUuid() {
@@ -52,19 +45,11 @@ public class Disciplina {
         this.nome = nome;
     }
 
-    public double getCusto() {
-        return custo;
-    }
-
-    public void setCusto(double custo) {
-        this.custo = custo;
-    }
-
-    public List<Disponibilidade> getDisponibilidade() {
+    public Disponibilidade getDisponibilidade() {
         return disponibilidade;
     }
 
-    public void setDisponibilidade(List<Disponibilidade> disponibilidade) {
+    public void setDisponibilidade(Disponibilidade disponibilidade) {
         this.disponibilidade = disponibilidade;
     }
 }

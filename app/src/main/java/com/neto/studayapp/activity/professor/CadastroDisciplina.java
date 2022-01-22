@@ -48,17 +48,17 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class CadastroDisciplina extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    Toolbar toolbar;
-    View header;
-    Spinner nome, diaSemana;
-    EditText valor, das, ate;
-    Button btnSubmit;
-    TextView nomeUsuario, alertDisciplina, alertValor, alertDia, alertDas, alertAte;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
+    private Spinner nomeDisciplina, diaDe, diaAte;
+    private EditText horaDas, horaAte;
+    private Button btnSubmit;
+    private TextView nomeUsuario, alertDisciplina, alertDiaDe, alertDiaAte, alertHoraDas, alertHoraAte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +67,8 @@ public class CadastroDisciplina extends AppCompatActivity implements NavigationV
         iniciarComponentes();
 
         // mascaras para formatar a hora
-        das.addTextChangedListener(Mask.insert("##:##", das));
-        ate.addTextChangedListener(Mask.insert("##:##", ate));
+        horaDas.addTextChangedListener(Mask.insert("##:##", horaDas));
+        horaAte.addTextChangedListener(Mask.insert("##:##", horaAte));
 
         btnSubmit.setOnClickListener(view -> {
             if (formularioIsValid()) {
@@ -135,21 +135,24 @@ public class CadastroDisciplina extends AppCompatActivity implements NavigationV
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navView);
         toolbar = findViewById(R.id.toobarMenu);
-        header = navigationView.getHeaderView(0);
+        View header = navigationView.getHeaderView(0);
         nomeUsuario = header.findViewById(R.id.nomeUsuarioId);
-        nome = findViewById(R.id.spinnerDisciplina);
-        valor = findViewById(R.id.editTextValor);
-        diaSemana = findViewById(R.id.spinnerDiaSemana);
-        das = findViewById(R.id.editTextDas);
-        ate = findViewById(R.id.editTextAte);
-        btnSubmit = findViewById(R.id.buttonSubmitCadastro);
+        // editText e spinner
+        nomeDisciplina = findViewById(R.id.spinnerDisciplina);
+        diaDe = findViewById(R.id.spinnerDiaDe);
+        diaAte = findViewById(R.id.spinnerDiaAte);
+        horaDas = findViewById(R.id.editTextDas);
+        horaAte = findViewById(R.id.editTextAte);
+        // textView
         alertDisciplina = findViewById(R.id.textViewDisciplinaAlert);
-        alertValor = findViewById(R.id.textViewValorAlert);
-        alertDia = findViewById(R.id.textViewDiaSemanaAlert);
-        alertDas = findViewById(R.id.textViewDasAlert);
-        alertAte = findViewById(R.id.textViewAteAlert);
+        alertDiaDe = findViewById(R.id.textViewDiaDeAlert);
+        alertDiaAte = findViewById(R.id.textViewDiaAteAlert);
+        alertHoraDas = findViewById(R.id.textViewHoraDasAlert);
+        alertHoraAte = findViewById(R.id.textViewHoraAteAlert);
+        // button
+        btnSubmit = findViewById(R.id.buttonSubmitCadastro);
         iniciarMenu();
-        setSpinnerDia();
+        setSpinnersDia();
         setSpinnerDisciplina();
     }
 
@@ -162,27 +165,27 @@ public class CadastroDisciplina extends AppCompatActivity implements NavigationV
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void setSpinnerDia() {
+    private void setSpinnersDia() {
         String[] valores = getResources().getStringArray(R.array.dias);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, valores);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        diaSemana.setAdapter(adapter);
+        diaDe.setAdapter(adapter);
+        diaAte.setAdapter(adapter);
     }
 
     private void setSpinnerDisciplina() {
         String[] valores = getResources().getStringArray(R.array.disciplinas);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, valores);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        nome.setAdapter(adapter);
+        nomeDisciplina.setAdapter(adapter);
     }
 
     private boolean formularioIsValid() {
-
-        boolean disciplinaValido = false, valorValido = false, diaValido = false;
-        boolean dasValido = false, ateValido = false;
+        boolean disciplinaValido = false, diaDeValido = false, diaAteValido = false;
+        boolean horaDasValido = false, horaAteValido = false, formValido = false;
         Validator validator = new Validator();
 
-        if (validator.selectIsValid(nome)) {
+        if (validator.selectIsValid(nomeDisciplina)) {
             alertDisciplina.setVisibility(View.INVISIBLE);
             disciplinaValido = true;
         } else {
@@ -190,73 +193,74 @@ public class CadastroDisciplina extends AppCompatActivity implements NavigationV
             alertDisciplina.setText(validator.getMsgSelect());
         }
 
-        if (validator.valorIsValid(valor)) {
-            alertValor.setVisibility(View.INVISIBLE);
-            valorValido = true;
+        if (validator.selectIsValid(diaDe)) {
+            alertDiaDe.setVisibility(View.INVISIBLE);
+            diaDeValido = true;
         } else {
-            alertValor.setVisibility(View.VISIBLE);
-            alertValor.setText(validator.getMsgValor());
+            alertDiaDe.setVisibility(View.VISIBLE);
+            alertDiaDe.setText(validator.getMsgSelect());
         }
 
-        if (validator.selectIsValid(diaSemana)) {
-            alertDia.setVisibility(View.INVISIBLE);
-            diaValido = true;
+        if (validator.selectIsValid(diaAte)) {
+            alertDiaAte.setVisibility(View.INVISIBLE);
+            diaAteValido = true;
         } else {
-            alertDia.setVisibility(View.VISIBLE);
-            alertDia.setText(validator.getMsgSelect());
+            alertDiaAte.setVisibility(View.VISIBLE);
+            alertDiaAte.setText(validator.getMsgSelect());
         }
 
-        if (validator.horaIsValid(das)) {
-            alertDas.setVisibility(View.INVISIBLE);
-            dasValido = true;
-        } else {
-            alertDas.setVisibility(View.VISIBLE);
-            alertDas.setText(validator.getMsgHora());
+        if (diaDeValido && diaAteValido) {
+            if (validator.diaIsBiggestOrEquals(diaAte, diaDe)) {
+                alertDiaAte.setVisibility(View.INVISIBLE);
+                formValido = true;
+            } else {
+                alertDiaAte.setVisibility(View.VISIBLE);
+                alertDiaAte.setText(validator.getMsgDia());
+            }
         }
 
-        if (validator.horaIsValid(ate)) {
-            alertAte.setVisibility(View.INVISIBLE);
-            ateValido = true;
+        if (validator.horaIsValid(horaDas)) {
+            alertHoraDas.setVisibility(View.INVISIBLE);
+            horaDasValido = true;
         } else {
-            alertAte.setVisibility(View.VISIBLE);
-            alertAte.setText(validator.getMsgHora());
+            alertHoraDas.setVisibility(View.VISIBLE);
+            alertHoraDas.setText(validator.getMsgHora());
         }
 
-        return disciplinaValido && valorValido && diaValido && dasValido && ateValido;
+        if (validator.horaIsValid(horaAte)) {
+            alertHoraAte.setVisibility(View.INVISIBLE);
+            horaAteValido = true;
+        } else {
+            alertHoraAte.setVisibility(View.VISIBLE);
+            alertHoraAte.setText(validator.getMsgHora());
+        }
+
+        return disciplinaValido && diaDeValido && diaAteValido
+                && horaDasValido && horaAteValido && formValido;
 
     }
 
     private void cadastrarDisciplina() {
-
-        Disciplina disciplina = new Disciplina();
-        List<Disponibilidade> disponibilidades = new ArrayList<>();
-        Disponibilidade disponibilidade = new Disponibilidade();
         String uuidProfessor = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        Disciplina disciplina = new Disciplina();
+        Disponibilidade disponibilidade = new Disponibilidade();
 
-        disponibilidade.setDiaDaSemana(diaSemana.getSelectedItem().toString());
-        disponibilidade.setHorarioInicio(das.getText().toString());
-        disponibilidade.setHorarioFinal(ate.getText().toString());
-        disponibilidades.add(disponibilidade);
+        disciplina.setUuid(UUID.randomUUID().toString());
+        disciplina.setNome(nomeDisciplina.getSelectedItem().toString());
         disciplina.setUuidProfessor(uuidProfessor);
-        disciplina.setNome(nome.getSelectedItem().toString());
-        disciplina.setCusto(Double.parseDouble(valor.getText().toString().replaceAll("[,]", ".")));
-        disciplina.setDisponibilidade(disponibilidades);
+        disponibilidade.setHoraDas(horaDas.getText().toString());
+        disponibilidade.setHoraAte(horaAte.getText().toString());
+        disponibilidade.setDiaDe(diaDe.getSelectedItem().toString());
+        disponibilidade.setDiaAte(diaAte.getSelectedItem().toString());
+        disciplina.setDisponibilidade(disponibilidade);
 
         FirebaseFirestore database = FirebaseFirestore.getInstance();
-        DocumentReference df = database.collection("disciplinas").document(disciplina.getUuid());
-        df.set(disciplina).addOnCompleteListener(task -> {
-            if (task.isComplete()) {
-                Toast.makeText(getApplicationContext(), "Sucesso!", Toast.LENGTH_SHORT).show();
-            } else {
-                try {
-                    throw Objects.requireNonNull(task.getException());
-                } catch (Exception err) {
-                    //Log.d("teste", err.getMessage());
-                    Toast.makeText(getApplicationContext(), err.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        database.collection("disciplinas").document(disciplina.getUuid()).set(disciplina);
 
+        Toast.makeText(this, "Disciplina cadastrada com sucesso!", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, Disciplinas.class));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        finish();
     }
 
     public void voltar(View view) {
@@ -275,12 +279,3 @@ public class CadastroDisciplina extends AppCompatActivity implements NavigationV
     }
 
 }
-
-
-//        System.out.println("=== objeto disciplina criado ===");
-//        System.out.println("Nome: " + disciplina.getNome());
-//        System.out.println("Valor: " + disciplina.getCusto());
-//        System.out.println("Dia: " + disciplina.getDisponibilidade().get(0).getDiaDaSemana());
-//        System.out.println("Das: " + disciplina.getDisponibilidade().get(0).getHorarioInicio());
-//        System.out.println("Até: " + disciplina.getDisponibilidade().get(0).getHorarioFinal());
-//        System.out.println("===============================");

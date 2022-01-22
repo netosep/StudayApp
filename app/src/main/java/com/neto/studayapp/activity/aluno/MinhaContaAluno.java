@@ -1,18 +1,26 @@
 package com.neto.studayapp.activity.aluno;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.utils.widget.ImageFilterView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +46,8 @@ public class MinhaContaAluno extends AppCompatActivity implements NavigationView
     private NavigationView navigationView;
     private Toolbar toolbar;
     private TextView nomeUsuario, nomeCompleto, email, whatsapp, dataNasc;
+    private ImageView btnEditImage;
+    private ImageFilterView imagePreview;
     private final Aluno aluno = new Aluno();
 
     @Override
@@ -45,6 +55,29 @@ public class MinhaContaAluno extends AppCompatActivity implements NavigationView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_minha_conta_aluno);
         iniciarComponentes();
+
+
+        // add imagem
+        ActivityResultLauncher<Intent> intentLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                        Uri imgSelecionada = result.getData().getData();
+                        //caminhoImg = imgSelecionada;
+                        try {
+                            // setando imagem de preview
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imgSelecionada);
+                            imagePreview.setImageBitmap(bitmap);
+                        } catch (Exception err) {
+                            err.printStackTrace();
+                        }
+                    }
+                }
+        );
+
+        btnEditImage.setOnClickListener(view -> {
+            Intent pickImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intentLauncher.launch(pickImage);
+        });
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -137,6 +170,8 @@ public class MinhaContaAluno extends AppCompatActivity implements NavigationView
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navView);
         toolbar = findViewById(R.id.toobarMenu);
+        btnEditImage = findViewById(R.id.imgEditImage);
+        imagePreview = findViewById(R.id.imageUser);
         View header = navigationView.getHeaderView(0);
         nomeUsuario = header.findViewById(R.id.nomeUsuarioId);
         nomeCompleto = findViewById(R.id.textViewNomeSobrenome);
