@@ -70,7 +70,7 @@
                         style="@style/textViewTitulo"
                         android:layout_width="wrap_content"
                         android:layout_margin="0dp"
-                        android:text="Professores disponíveis"
+                        android:text="@string/professores_disponiveis"
                         app:layout_constraintStart_toStartOf="parent"
                         tools:ignore="MissingConstraints" />
 
@@ -86,7 +86,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:orientation="vertical"
@@ -102,16 +102,53 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
-                    <!--                <TextView-->
-                    <!--                    android:layout_width="match_parent"-->
-                    <!--                    android:layout_height="350dp"-->
-                    <!--                    android:gravity="center"-->
-                    <!--                    android:text="Não há professores disponíveis :("-->
-                    <!--                    android:fontFamily="@font/nunito_sans"-->
-                    <!--                    android:textAlignment="center"-->
-                    <!--                    android:textColor="@color/hint_color"-->
-                    <!--                    android:textSize="23sp" />-->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardSemProfessores"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:backgroundTint="@color/white"
+                        android:visibility="gone"
+                        app:cardCornerRadius="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            tools:ignore="UseCompoundDrawables">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="100dp"
+                                android:fontFamily="@font/nunito_sans"
+                                android:text="@string/sem_professores"
+                                android:textAlignment="center"
+                                android:textColor="@color/hint_color"
+                                android:textSize="20sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="15dp"
+                                android:alpha="0.3"
+                                android:src="@drawable/ic_empty"
+                                tools:ignore="ContentDescription" />
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
 
                 </LinearLayout>
 

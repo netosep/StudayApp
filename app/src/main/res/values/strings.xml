@@ -21,8 +21,11 @@
     <string name="erro_login">Ocorreu um erro ao fazer login!</string>
     <string name="erro_email_inexistente">E-mail inexistente!</string>
     <string name="erro_email_em_uso">Este e-mail já está em uso!</string>
+    <string name="senha_incorreta">Senha incorreta!</string>
     <string name="minha_conta">Minha conta</string>
     <string name="email_value">email@email.com</string>
+    <string name="sem_professores">Não há professores disponíveis...</string>
+    <string name="professores_disponiveis">Professores disponíveis</string>
 
     <!--  Arrays  -->
     <string-array name="sexo">

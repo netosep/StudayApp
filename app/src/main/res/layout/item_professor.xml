@@ -83,7 +83,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="7dp"
                             android:fontFamily="@font/poppins"
-                            android:text="(3,5)"
+                            android:text="(3,99)"
                             android:textColor="@color/text_color"
                             android:textSize="11sp" />
 

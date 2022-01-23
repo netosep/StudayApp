@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudayApp">
         <activity
+            android:name=".activity.aluno.EditarPerfilAluno"
+            android:exported="false" />
+        <activity
             android:name=".activity.professor.EditarPerfilProfessor"
             android:exported="false" />
         <activity

@@ -1,18 +1,26 @@
 package com.neto.studayapp.activity.professor;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.utils.widget.ImageFilterView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +46,8 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
     private LinearLayout listVerPerfil, listAtualizarPerfil, listAlterarSenha;
     private NavigationView navigationView;
     private Toolbar toolbar;
+    private ImageView btnEditImage;
+    private ImageFilterView imagePreview;
     private AppCompatButton buttonEditPerfil, buttonEditSenha;
     private TextView nomeUsuario, nomeCompleto, email, whatsapp, dataNasc, valor, sexo, descricao, biografia;
     private final Professor professor = new Professor();
@@ -66,6 +76,28 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
                 listVerPerfil.setVisibility(View.VISIBLE);
                 buttonEditSenha.setText("Editar senha");
             }
+        });
+
+        // add imagem
+        ActivityResultLauncher<Intent> intentLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                        Uri imgSelecionada = result.getData().getData();
+                        //caminhoImg = imgSelecionada;
+                        try {
+                            // setando imagem de preview
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imgSelecionada);
+                            imagePreview.setImageBitmap(bitmap);
+                        } catch (Exception err) {
+                            err.printStackTrace();
+                        }
+                    }
+                }
+        );
+
+        btnEditImage.setOnClickListener(view -> {
+            Intent pickImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intentLauncher.launch(pickImage);
         });
     }
 
@@ -140,6 +172,8 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
         buttonEditPerfil = findViewById(R.id.buttonEditPerfil);
         buttonEditSenha = findViewById(R.id.buttonEditSenha);
         listVerPerfil = findViewById(R.id.listPerfil);
+        btnEditImage = findViewById(R.id.imgEditImage);
+        imagePreview = findViewById(R.id.imageUser);
         //listAtualizarPerfil = findViewById(R.id.);
         listAlterarSenha = findViewById(R.id.listAlterarSenha);
         drawerLayout = findViewById(R.id.drawerLayout);

@@ -1,6 +1,10 @@
 package com.neto.studayapp.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +24,7 @@ import com.neto.studayapp.R;
 import com.neto.studayapp.model.Disciplina;
 import com.neto.studayapp.model.Professor;
 
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -49,20 +54,24 @@ public class ProfessorAdapter extends RecyclerView.Adapter {
         //Disciplina disciplina = disciplinas.get(position);
         StringBuilder nomesDisciplina = new StringBuilder();
         for (int i = 0; i < disciplinas.size(); i++) {
-            if(professores.get(position).getUuidProfessor().equals(disciplinas.get(i).getUuidProfessor())) {
+            if (professores.get(position).getUuidProfessor().equals(disciplinas.get(i).getUuidProfessor())) {
                 nomesDisciplina.append(disciplinas.get(i).getNome()).append(", ");
             }
         }
-        if(nomesDisciplina.length() > 2) {
+        if (nomesDisciplina.length() > 2) {
             int size = nomesDisciplina.length();
             nomesDisciplina = new StringBuilder(nomesDisciplina.substring(0, size - 2) + ".");
         }
+        if (nomesDisciplina.toString().isEmpty()) {
+            nomesDisciplina.append("Sem disciplinas cadastradas.");
+        }
         vhClass.nomeProfessor.setText(professor.getNomeCompleto());
+        vhClass.ratingBar.setRating(3.5F);
+        vhClass.ratingText.setText("(3,5)");
         vhClass.disciplina.setText(nomesDisciplina.toString());
         vhClass.descricao.setText(professor.getDescricao());
-        vhClass.ratingBar.setRating(3.5F);
         vhClass.sobre.setText(professor.getBiografia());
-        vhClass.valor.setText("R$ " + df.format(professor.getValorAula()));
+        vhClass.valor.setText("R$ " + df.format(professor.getValorAula()).replaceAll("[.]", ","));
         vhClass.professor = professor;
     }
 
@@ -73,7 +82,7 @@ public class ProfessorAdapter extends RecyclerView.Adapter {
 
     public static class ViewHolderClass extends RecyclerView.ViewHolder {
 
-        TextView nomeProfessor, disciplina, descricao, sobre, valor;
+        TextView nomeProfessor, disciplina, descricao, sobre, valor, ratingText;
         RatingBar ratingBar;
         LinearLayout buttonWhatsapp;
         ImageButton buttonFavorito, buttonAvaliar;
@@ -87,16 +96,16 @@ public class ProfessorAdapter extends RecyclerView.Adapter {
             database = FirebaseFirestore.getInstance();
 
             buttonWhatsapp.setOnClickListener(view -> {
-                Toast.makeText(view.getContext(), professor.getNomeCompleto(), Toast.LENGTH_SHORT).show();
+                String mensagem = "Olá " + professor.getNomeCompleto() + "!, te encontrei pelo app Studay e tenho interesse nas suas aulas!";
+                openWhatsApp(view.getContext(), professor.getWhatsapp(), mensagem);
             });
             buttonFavorito.setOnClickListener(view -> {
                 Toast.makeText(view.getContext(), "Favoritou " + professor.getNomeCompleto(), Toast.LENGTH_SHORT).show();
+
             });
             buttonAvaliar.setOnClickListener(view -> {
                 Toast.makeText(view.getContext(), "Avaliou " + professor.getNomeCompleto(), Toast.LENGTH_SHORT).show();
             });
-
-            // desenvolver metodos
 
         }
 
@@ -104,12 +113,27 @@ public class ProfessorAdapter extends RecyclerView.Adapter {
             nomeProfessor = itemView.findViewById(R.id.textViewNomeProfessor);
             disciplina = itemView.findViewById(R.id.textViewDisciplina);
             ratingBar = itemView.findViewById(R.id.ratingProfessor);
+            ratingText = itemView.findViewById(R.id.textViewRatingProfessor);
             descricao = itemView.findViewById(R.id.textViewDescricao);
             sobre = itemView.findViewById(R.id.textViewSobre);
             valor = itemView.findViewById(R.id.textViewValor);
             buttonWhatsapp = itemView.findViewById(R.id.buttonWhatsapp);
             buttonAvaliar = itemView.findViewById(R.id.buttonAvaliar);
             buttonFavorito = itemView.findViewById(R.id.buttonFavorito);
+        }
+
+        private void openWhatsApp(Context context, String numero, String mensagem) {
+            try {
+                PackageManager packageManager = context.getPackageManager();
+                packageManager.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                String url = "https://api.whatsapp.com/send?phone=+55" + numero + "&text=" + URLEncoder.encode(mensagem, "UTF-8");
+                intent.setData(Uri.parse(url));
+                context.startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(context, "Necessário ter o aplicativo WhatsApp!", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
         }
     }
 }

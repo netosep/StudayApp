@@ -1,10 +1,10 @@
 package com.neto.studayapp.activity.aluno;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,7 +14,6 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RatingBar;
@@ -24,11 +23,8 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.neto.studayapp.R;
 import com.google.android.material.navigation.NavigationView;
 import com.neto.studayapp.activity.misc.Loading;
@@ -50,6 +46,7 @@ public class Professores extends AppCompatActivity implements NavigationView.OnN
     RatingBar ratingBar;
     ProgressDialog progressDialog;
     RecyclerView recyclerView;
+    CardView cardSemProfessores;
     ProfessorAdapter professorAdapter;
     List<Professor> professores = new ArrayList<>();
     List<Disciplina> disciplinas = new ArrayList<>();
@@ -126,7 +123,7 @@ public class Professores extends AppCompatActivity implements NavigationView.OnN
         nomeUsuario = header.findViewById(R.id.nomeUsuarioId);
         recyclerView = findViewById(R.id.recViewProfessores);
         ratingBar = findViewById(R.id.ratingProfessor);
-        // professores vazio
+        cardSemProfessores = findViewById(R.id.cardSemProfessores);
         iniciarMenu();
     }
 
@@ -151,18 +148,19 @@ public class Professores extends AppCompatActivity implements NavigationView.OnN
         database.collection("professores").addSnapshotListener((ssProfessores, errorProfessor) -> {
             if (ssProfessores != null) {
                 for (DocumentChange dcProfessor : ssProfessores.getDocumentChanges()) {
+                    // professores
+                    if (dcProfessor.getType() == DocumentChange.Type.ADDED) {
+                        professores.add(dcProfessor.getDocument().toObject(Professor.class));
+                    }
+                    // if (dcProfessor.getType() == DocumentChange.Type.REMOVED) {
+                    //     professores.remove(dcProfessor.getDocument().toObject(Professor.class));
+                    // }
+
                     String uuidProfessor = Objects.requireNonNull(dcProfessor.getDocument().get("uuidProfessor")).toString();
                     Query query = database.collection("disciplinas").whereEqualTo("uuidProfessor", uuidProfessor);
                     query.addSnapshotListener((ssDisciplinas, errorDisciplina) -> {
                         if (ssDisciplinas != null) {
                             for (DocumentChange dcDisciplina : ssDisciplinas.getDocumentChanges()) {
-                                // professores
-                                if (dcProfessor.getType() == DocumentChange.Type.ADDED) {
-                                    professores.add(dcProfessor.getDocument().toObject(Professor.class));
-                                }
-                                // if (dcProfessor.getType() == DocumentChange.Type.REMOVED) {
-                                //     professores.remove(dcProfessor.getDocument().toObject(Professor.class));
-                                // }
                                 // disciplinas
                                 if (dcDisciplina.getType() == DocumentChange.Type.ADDED) {
                                     disciplinas.add(dcDisciplina.getDocument().toObject(Disciplina.class));

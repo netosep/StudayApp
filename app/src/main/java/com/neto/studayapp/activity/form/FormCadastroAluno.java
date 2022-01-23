@@ -46,8 +46,6 @@ public class FormCadastroAluno extends AppCompatActivity {
         whatsapp.addTextChangedListener(Mask.insert("(##) #####-####", whatsapp));
         dataNascimento.addTextChangedListener(Mask.insert("##/##/####", dataNascimento));
 
-
-
         buttonSubmit.setOnClickListener(view -> {
             if (formularioIsValid()) {
                 try {
@@ -63,12 +61,6 @@ public class FormCadastroAluno extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(FormCadastroAluno.this, EscolhaCadastro.class));
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-        finish();
-    }
-
-    public void voltar(View view) {
         startActivity(new Intent(FormCadastroAluno.this, EscolhaCadastro.class));
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         finish();
@@ -174,20 +166,19 @@ public class FormCadastroAluno extends AppCompatActivity {
         Task<AuthResult> authResultTask = FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailString, senhaString);
         authResultTask.addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                // apos criar o usuário sair
-                FirebaseAuth.getInstance().signOut();
                 // criando uma collection para um aluno no banco
                 FirebaseFirestore database = FirebaseFirestore.getInstance();
                 FirebaseUser user = Objects.requireNonNull(authResultTask.getResult()).getUser();
                 DocumentReference df = database.collection("alunos").document(Objects.requireNonNull(user).getUid());
                 // definindo uma coleção "Aluno" no banco
                 df.set(aluno);
+                // apos criar o usuário sair
+                FirebaseAuth.getInstance().signOut();
 
-                Toast.makeText(getApplicationContext(), "Sucesso!", Toast.LENGTH_SHORT).show();
-
-                //
-                // retornar sucesso
-                //
+                Toast.makeText(getApplicationContext(), "Tudo certo! Agora faça login.", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, FormLogin.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                finish();
 
             } else {
                 String erro;
@@ -211,6 +202,12 @@ public class FormCadastroAluno extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void voltar(View view) {
+        startActivity(new Intent(FormCadastroAluno.this, EscolhaCadastro.class));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        finish();
     }
 
 }

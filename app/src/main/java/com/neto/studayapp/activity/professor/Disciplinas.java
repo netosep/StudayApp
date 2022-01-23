@@ -45,7 +45,6 @@ public class Disciplinas extends AppCompatActivity implements NavigationView.OnN
     View header;
     ImageFilterButton addDisciplina;
 
-    ProgressDialog progressDialog;
     List<Disciplina> disciplinas;
     RecyclerView recyclerView;
     DisciplinaAdapter disciplinaAdapter;
@@ -135,11 +134,6 @@ public class Disciplinas extends AppCompatActivity implements NavigationView.OnN
     private void carregarRecyclerView() {
 
         String uuidProfessor = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Carregando...");
-        progressDialog.show();
-
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         database = FirebaseFirestore.getInstance();
@@ -150,30 +144,25 @@ public class Disciplinas extends AppCompatActivity implements NavigationView.OnN
         Query query = database.collection("disciplinas").whereEqualTo("uuidProfessor", uuidProfessor);
         query.addSnapshotListener((value, error) -> {
             if (value != null) {
-                new Handler().postDelayed(() -> {
-                    if (value.isEmpty()) {
-                        if(progressDialog.isShowing()) progressDialog.dismiss();
-                        recyclerView.setVisibility(View.INVISIBLE);
-                        disciplinasVazio.setVisibility(View.VISIBLE);
-                    } else {
-                        disciplinasVazio.setVisibility(View.INVISIBLE);
-                        recyclerView.setVisibility(View.VISIBLE);
+                if (value.isEmpty()) {
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    disciplinasVazio.setVisibility(View.VISIBLE);
+                } else {
+                    disciplinasVazio.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+                for (DocumentChange dc : value.getDocumentChanges()) {
+                    if (dc.getType() == DocumentChange.Type.ADDED) {
+                        disciplinas.add(dc.getDocument().toObject(Disciplina.class));
                     }
-                    for (DocumentChange dc : value.getDocumentChanges()) {
-                        if (dc.getType() == DocumentChange.Type.ADDED) {
-                            disciplinas.add(dc.getDocument().toObject(Disciplina.class));
-                        }
-                        if (dc.getType() == DocumentChange.Type.REMOVED) {
-                            disciplinas.remove(dc.getDocument().toObject(Disciplina.class));
-                        }
-                        disciplinaAdapter.notifyDataSetChanged();
-                        if(progressDialog.isShowing()) progressDialog.dismiss();
+                    if (dc.getType() == DocumentChange.Type.REMOVED) {
+                        disciplinas.remove(dc.getDocument().toObject(Disciplina.class));
                     }
-                },1000);
+                    disciplinaAdapter.notifyDataSetChanged();
+                }
             }
             if (error != null) {
                 System.out.println(error.getMessage());
-                if(progressDialog.isShowing()) progressDialog.dismiss();
             }
         });
     }

@@ -232,20 +232,19 @@ public class FormCadastroProfessor extends AppCompatActivity {
         Task<AuthResult> authResultTask = FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailString, senhaString);
         authResultTask.addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                // apos criar o usuário sair
-                FirebaseAuth.getInstance().signOut();
                 // criando uma collection para um professor no banco
                 FirebaseFirestore database = FirebaseFirestore.getInstance();
                 FirebaseUser user = Objects.requireNonNull(authResultTask.getResult()).getUser();
                 professor.setUuidProfessor(Objects.requireNonNull(user).getUid());
                 DocumentReference df = database.collection("professores").document(Objects.requireNonNull(user).getUid());
                 df.set(professor);
+                // apos criar o usuário sair
+                FirebaseAuth.getInstance().signOut();
 
-                //
-                // retornar sucesso
-                //
-
-                Toast.makeText(getApplicationContext(), "Sucesso!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Tudo certo! Agora faça login.", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, FormLogin.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                finish();
 
             } else {
                 String erro;
