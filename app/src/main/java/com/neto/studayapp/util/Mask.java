@@ -4,8 +4,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import java.util.Arrays;
-
 /***********************************************************
  *          Mascara para EditText adaptada                 *
  *  Autor: https://pt.stackoverflow.com/users/35406/viana  *

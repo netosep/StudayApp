@@ -1,5 +1,8 @@
 package com.neto.studayapp.adapter;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,28 +17,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.neto.studayapp.R;
+import com.neto.studayapp.activity.professor.EditarDisciplina;
 import com.neto.studayapp.model.Disciplina;
 
 import java.util.List;
 import java.util.Objects;
 
-public class DisciplinaAdapter extends RecyclerView.Adapter<ViewHolderClass> {
+public class DisciplinaAdapter extends RecyclerView.Adapter<ViewHolderClassDisciplinas> {
 
     List<Disciplina> disciplinas;
+    Activity disciplinasActivity;
 
-    public DisciplinaAdapter(List<Disciplina> disciplinas) {
+    public DisciplinaAdapter(List<Disciplina> disciplinas, Activity disciplinasActivity) {
         this.disciplinas = disciplinas;
+        this.disciplinasActivity = disciplinasActivity;
     }
 
     @NonNull
     @Override
-    public ViewHolderClass onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolderClassDisciplinas onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_disciplina, parent, false);
-        return new ViewHolderClass(view).linkAdapter(this);
+        return new ViewHolderClassDisciplinas(view, disciplinasActivity).linkAdapter(this);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolderClass holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolderClassDisciplinas holder, int position) {
         Disciplina disciplina = disciplinas.get(position);
         holder.nomeDisciplina.setText(disciplina.getNome());
         holder.disciplina = disciplina;
@@ -46,27 +52,38 @@ public class DisciplinaAdapter extends RecyclerView.Adapter<ViewHolderClass> {
         return disciplinas.size();
     }
 
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void filtrarDalista(List<Disciplina> disciplinaFilterList) {
+        disciplinas = disciplinaFilterList;
+        notifyDataSetChanged();
+    }
 }
 
-class ViewHolderClass extends RecyclerView.ViewHolder {
+class ViewHolderClassDisciplinas extends RecyclerView.ViewHolder {
 
     Disciplina disciplina;
     TextView nomeDisciplina;
     DisciplinaAdapter adapter;
     ImageButton buttonVerDisciplina, buttonEditarDisciplina, buttonApagarDisciplina;
-    FirebaseFirestore database;
 
-    public ViewHolderClass(@NonNull View itemView) {
+
+    public ViewHolderClassDisciplinas(@NonNull View itemView, Activity disciplinasActivity) {
         super(itemView);
         iniciarComponentes(itemView);
-        database = FirebaseFirestore.getInstance();
+
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         buttonVerDisciplina.setOnClickListener(view -> {
             Toast.makeText(view.getContext(), "Ver disciplina: " + disciplina.getNome(), Toast.LENGTH_SHORT).show();
         });
 
         buttonEditarDisciplina.setOnClickListener(view -> {
-            Toast.makeText(view.getContext(), "Editar disciplina: " + disciplina.getNome(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(disciplinasActivity, EditarDisciplina.class);
+            intent.putExtra("disciplina", disciplina);
+            disciplinasActivity.startActivity(intent);
+            disciplinasActivity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            disciplinasActivity.finish();
         });
 
         buttonApagarDisciplina.setOnClickListener(view -> {
@@ -84,7 +101,7 @@ class ViewHolderClass extends RecyclerView.ViewHolder {
                         try {
                             throw Objects.requireNonNull(task.getException());
                         } catch (Exception err) {
-                            //Log.d("teste", err.getMessage());
+                            // Log.d("teste", err.getMessage());
                             Toast.makeText(view.getContext(), err.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -96,7 +113,7 @@ class ViewHolderClass extends RecyclerView.ViewHolder {
 
     }
 
-    public ViewHolderClass linkAdapter(DisciplinaAdapter adapter) {
+    public ViewHolderClassDisciplinas linkAdapter(DisciplinaAdapter adapter) {
         this.adapter = adapter;
         return this;
     }

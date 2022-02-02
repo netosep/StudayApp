@@ -1,8 +1,9 @@
 package com.neto.studayapp.model;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 public class Professor implements Serializable {
 
@@ -17,13 +18,12 @@ public class Professor implements Serializable {
     private String biografia;
     private String urlFotoPerfil;
     private int nivelAcesso;
-    private List<Avaliacao> avaliacoes;
 
     public Professor() {
-
     }
 
-    public Professor(String nomeCompleto, String email, String whatsapp, Date dataNascimento, String sexo, String descricao, String biografia, String urlFotoPerfil, int nivelAcesso, List<Avaliacao> avaliacoes) {
+    public Professor(String nomeCompleto, String email, String whatsapp, Date dataNascimento, String sexo,
+                     String descricao, String biografia, String urlFotoPerfil, int nivelAcesso) {
         this.nomeCompleto = nomeCompleto;
         this.email = email;
         this.whatsapp = whatsapp;
@@ -33,7 +33,6 @@ public class Professor implements Serializable {
         this.biografia = biografia;
         this.urlFotoPerfil = urlFotoPerfil;
         this.nivelAcesso = nivelAcesso;
-        this.avaliacoes = avaliacoes;
     }
 
     public String getUuidProfessor() {
@@ -124,12 +123,21 @@ public class Professor implements Serializable {
         this.nivelAcesso = nivelAcesso;
     }
 
-    public List<Avaliacao> getAvaliacoes() {
-        return avaliacoes;
+    @NonNull
+    @Override
+    public String toString() {
+        return "Professor{" +
+                "uuidProfessor='" + uuidProfessor + '\'' +
+                ", nomeCompleto='" + nomeCompleto + '\'' +
+                ", email='" + email + '\'' +
+                ", whatsapp='" + whatsapp + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", sexo='" + sexo + '\'' +
+                ", valorAula=" + valorAula +
+                ", descricao='" + descricao + '\'' +
+                ", biografia='" + biografia + '\'' +
+                ", urlFotoPerfil='" + urlFotoPerfil + '\'' +
+                ", nivelAcesso=" + nivelAcesso +
+                '}';
     }
-
-    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
-        this.avaliacoes = avaliacoes;
-    }
-
 }

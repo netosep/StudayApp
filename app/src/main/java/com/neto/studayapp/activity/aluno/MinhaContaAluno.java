@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,12 +31,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.neto.studayapp.R;
 import com.neto.studayapp.activity.misc.Loading;
 import com.neto.studayapp.model.Aluno;
-import com.neto.studayapp.model.Disponibilidade;
 import com.neto.studayapp.util.Mask;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Map;
 import java.util.Objects;
 
 public class MinhaContaAluno extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -130,9 +127,9 @@ public class MinhaContaAluno extends AppCompatActivity implements NavigationView
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
                 break;
-            case R.id.avaliacoesId:
-                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
-                break;
+//            case R.id.avaliacoesId:
+//                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
+//                break;
             case R.id.infoId:
                 Toast.makeText(this, "Sobre", Toast.LENGTH_SHORT).show();
                 break;

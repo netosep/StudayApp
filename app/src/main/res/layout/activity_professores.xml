@@ -49,6 +49,17 @@
                     android:layout_height="35dp"
                     android:layout_margin="15dp">
 
+                    <androidx.appcompat.widget.SearchView
+                        android:id="@+id/searchViewProfessor"
+                        style="@style/searchView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="35dp"
+                        app:layout_constraintEnd_toStartOf="@id/toobarMenu"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:queryHint="Pesquisar professores..."
+                        app:searchIcon="@drawable/ic_search"
+                        tools:ignore="MissingConstraints" />
 
                     <androidx.appcompat.widget.Toolbar
                         android:id="@+id/toobarMenu"
@@ -73,14 +84,6 @@
                         android:text="@string/professores_disponiveis"
                         app:layout_constraintStart_toStartOf="parent"
                         tools:ignore="MissingConstraints" />
-
-                    <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:src="@drawable/ic_filter_list"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

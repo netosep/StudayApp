@@ -3,6 +3,7 @@ package com.neto.studayapp.activity.aluno;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
@@ -11,12 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,18 +37,16 @@ import java.util.Objects;
 
 public class Professores extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    Toolbar toolbar;
-    TextView nomeUsuario;
-    View header;
-    RatingBar ratingBar;
-    ProgressDialog progressDialog;
-    RecyclerView recyclerView;
-    CardView cardSemProfessores;
-    ProfessorAdapter professorAdapter;
-    List<Professor> professores = new ArrayList<>();
-    List<Disciplina> disciplinas = new ArrayList<>();
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
+    private TextView nomeUsuario;
+    private SearchView searchView;
+    private RecyclerView recyclerView;
+    private CardView cardSemProfessores;
+    private ProfessorAdapter professorAdapter;
+    private List<Professor> professores;
+    private List<Disciplina> disciplinas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +54,25 @@ public class Professores extends AppCompatActivity implements NavigationView.OnN
         setContentView(R.layout.activity_professores);
         iniciarComponentes();
         carregarRecyclerView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                List<Professor> professorFilterList = new ArrayList<>();
+                for (Professor professor : professores) {
+                    if(professor.getNomeCompleto().toLowerCase().contains(newText.toLowerCase())) {
+                        professorFilterList.add(professor);
+                    }
+                }
+                professorAdapter.filtrarDalista(professorFilterList);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -100,9 +116,9 @@ public class Professores extends AppCompatActivity implements NavigationView.OnN
             case R.id.professoresId:
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
-            case R.id.avaliacoesId:
-                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
-                break;
+//            case R.id.avaliacoesId:
+//                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
+//                break;
             case R.id.infoId:
                 Toast.makeText(this, "Sobre", Toast.LENGTH_SHORT).show();
                 break;
@@ -119,10 +135,11 @@ public class Professores extends AppCompatActivity implements NavigationView.OnN
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navView);
         toolbar = findViewById(R.id.toobarMenu);
-        header = navigationView.getHeaderView(0);
+        View header = navigationView.getHeaderView(0);
         nomeUsuario = header.findViewById(R.id.nomeUsuarioId);
         recyclerView = findViewById(R.id.recViewProfessores);
-        ratingBar = findViewById(R.id.ratingProfessor);
+        searchView = findViewById(R.id.searchViewProfessor);
+//        ratingBar = findViewById(R.id.ratingProfessor);
         cardSemProfessores = findViewById(R.id.cardSemProfessores);
         iniciarMenu();
     }
@@ -140,8 +157,12 @@ public class Professores extends AppCompatActivity implements NavigationView.OnN
     private void carregarRecyclerView() {
 
         FirebaseFirestore database = FirebaseFirestore.getInstance();
+        professores = new ArrayList<>();
+        disciplinas = new ArrayList<>();
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this){
+            @Override public boolean canScrollVertically() { return false;  }
+        });
         professorAdapter = new ProfessorAdapter(professores, disciplinas);
         recyclerView.setAdapter(professorAdapter);
 
@@ -152,22 +173,22 @@ public class Professores extends AppCompatActivity implements NavigationView.OnN
                     if (dcProfessor.getType() == DocumentChange.Type.ADDED) {
                         professores.add(dcProfessor.getDocument().toObject(Professor.class));
                     }
-                    // if (dcProfessor.getType() == DocumentChange.Type.REMOVED) {
-                    //     professores.remove(dcProfessor.getDocument().toObject(Professor.class));
-                    // }
+                    if (dcProfessor.getType() == DocumentChange.Type.REMOVED) {
+                        professores.remove(dcProfessor.getDocument().toObject(Professor.class));
+                    }
 
                     String uuidProfessor = Objects.requireNonNull(dcProfessor.getDocument().get("uuidProfessor")).toString();
-                    Query query = database.collection("disciplinas").whereEqualTo("uuidProfessor", uuidProfessor);
-                    query.addSnapshotListener((ssDisciplinas, errorDisciplina) -> {
+                    Query professorQuery = database.collection("disciplinas").whereEqualTo("uuidProfessor", uuidProfessor);
+                    professorQuery.addSnapshotListener((ssDisciplinas, errorDisciplina) -> {
                         if (ssDisciplinas != null) {
                             for (DocumentChange dcDisciplina : ssDisciplinas.getDocumentChanges()) {
                                 // disciplinas
                                 if (dcDisciplina.getType() == DocumentChange.Type.ADDED) {
                                     disciplinas.add(dcDisciplina.getDocument().toObject(Disciplina.class));
                                 }
-                                // if (dcDisciplina.getType() == DocumentChange.Type.REMOVED) {
-                                //    disciplinas.remove(dcDisciplina.getDocument().toObject(Disciplina.class));
-                                // }
+                                if (dcDisciplina.getType() == DocumentChange.Type.REMOVED) {
+                                    disciplinas.remove(dcDisciplina.getDocument().toObject(Disciplina.class));
+                                }
                                 professorAdapter.notifyDataSetChanged();
                             }
                         }

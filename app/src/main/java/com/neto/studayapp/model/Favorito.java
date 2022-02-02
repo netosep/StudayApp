@@ -1,36 +1,46 @@
 package com.neto.studayapp.model;
 
-public class Favorito {
+import java.io.Serializable;
 
-    private Integer idFavorito;
-    private Aluno aluno;
+public class Favorito implements Serializable {
+
+    private String uuidFavorito;
+    private String uuidAluno;
+    private String uuidProfessor;
     private Professor professor;
 
-    public Favorito(Integer idFavorito, Aluno aluno, Professor professor) {
-        this.idFavorito = idFavorito;
-        this.aluno = aluno;
+    public Favorito() {
+    }
+
+    public Favorito(String uuidFavorito, String uuidAluno, String uuidProfessor, Professor professor) {
+        this.uuidFavorito = uuidFavorito;
+        this.uuidAluno = uuidAluno;
+        this.uuidProfessor = uuidProfessor;
         this.professor = professor;
     }
 
-    public Favorito(Aluno aluno, Professor professor) {
-        this.aluno = aluno;
-        this.professor = professor;
+    public String getUuidFavorito() {
+        return uuidFavorito;
     }
 
-    public Integer getIdFavorito() {
-        return idFavorito;
+    public void setUuidFavorito(String uuidFavorito) {
+        this.uuidFavorito = uuidFavorito;
     }
 
-    public void setIdFavorito(Integer idFavorito) {
-        this.idFavorito = idFavorito;
+    public String getUuidAluno() {
+        return uuidAluno;
     }
 
-    public Aluno getAluno() {
-        return aluno;
+    public void setUuidAluno(String uuidAluno) {
+        this.uuidAluno = uuidAluno;
     }
 
-    public void setAluno(Aluno aluno) {
-        this.aluno = aluno;
+    public String getUuidProfessor() {
+        return uuidProfessor;
+    }
+
+    public void setUuidProfessor(String uuidProfessor) {
+        this.uuidProfessor = uuidProfessor;
     }
 
     public Professor getProfessor() {

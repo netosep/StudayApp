@@ -208,7 +208,8 @@
         <item name="android:textSize">17sp</item>
     </style>
 
-    <style name="editTextUpdatePerfil">
-
+    <style name="searchView">
+        <item name="android:fontFamily">@font/nunito_sans</item>
+        <item name="android:editTextColor">@color/text_color</item>
     </style>
 </resources>

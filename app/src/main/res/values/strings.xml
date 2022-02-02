@@ -48,6 +48,12 @@
         <item>Selecione</item>
         <item>Português</item>
         <item>Matemática</item>
-        <item>adc mais pelo db</item>
+        <item>Geografia</item>
+        <item>História</item>
+        <item>Ciências</item>
+        <item>Física</item>
+        <item>Biologia</item>
+        <item>Sociologia</item>
+        <item>Filosofia</item>
     </string-array>
 </resources>

@@ -21,22 +21,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.neto.studayapp.R;
 import com.neto.studayapp.activity.misc.Loading;
 import com.neto.studayapp.model.Disciplina;
 import com.neto.studayapp.model.Disponibilidade;
 import com.neto.studayapp.util.Mask;
 import com.neto.studayapp.util.Validator;
-import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
-import java.util.UUID;
 
-public class CadastroDisciplina extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class EditarDisciplina extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -46,12 +44,18 @@ public class CadastroDisciplina extends AppCompatActivity implements NavigationV
     private ImageFilterView imgPreviewMenu;
     private Button btnSubmit;
     private TextView nomeUsuario, alertDisciplina, alertDiaDe, alertDiaAte, alertHoraDas, alertHoraAte;
+    private Disciplina disciplina = new Disciplina();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro_disciplina);
+        setContentView(R.layout.activity_editar_disciplina);
         iniciarComponentes();
+
+        if (getIntent().hasExtra("disciplina")) {
+            disciplina = (Disciplina) getIntent().getSerializableExtra("disciplina");
+            setarValores();
+        }
 
         // mascaras para formatar a hora
         horaDas.addTextChangedListener(Mask.insert("##:##", horaDas));
@@ -59,11 +63,12 @@ public class CadastroDisciplina extends AppCompatActivity implements NavigationV
 
         btnSubmit.setOnClickListener(view -> {
             if (formularioIsValid()) {
-                cadastrarDisciplina();
+                FirebaseFirestore database = FirebaseFirestore.getInstance();
+                DocumentReference documentReference = database.collection("disciplinas").document(disciplina.getUuid());
+                atualizarDisciplina(documentReference);
                 btnSubmit.setEnabled(false);
             } else {
                 Toast.makeText(getApplicationContext(), "Verifique possíveis campos com erro!", Toast.LENGTH_SHORT).show();
-                btnSubmit.setEnabled(true);
             }
         });
 
@@ -236,39 +241,47 @@ public class CadastroDisciplina extends AppCompatActivity implements NavigationV
 
     }
 
-    private void cadastrarDisciplina() {
+    private void setarValores() {
+        int indiceDisciplina = 0, indiceDiaDe = 0, indiceDiaAte = 0;
+        String[] dias = getResources().getStringArray(R.array.dias);
+        String[] disciplinas = getResources().getStringArray(R.array.disciplinas);
+
+        for (int i = 0; i < dias.length; i++) {
+            if (dias[i].equals(disciplina.getDisponibilidade().getDiaDe())) indiceDiaDe = i;
+            if (dias[i].equals(disciplina.getDisponibilidade().getDiaAte())) indiceDiaAte = i;
+        }
+        for (int i = 0; i < disciplinas.length; i++) {
+            if (disciplinas[i].equals(disciplina.getNome())) indiceDisciplina = i;
+        }
+
+        nomeDisciplina.setSelection(indiceDisciplina);
+        nomeDisciplina.setEnabled(false);
+        diaDe.setSelection(indiceDiaDe);
+        diaAte.setSelection(indiceDiaAte);
+        horaDas.setText(disciplina.getDisponibilidade().getHoraDas());
+        horaAte.setText(disciplina.getDisponibilidade().getHoraAte());
+    }
+
+    private void atualizarDisciplina(DocumentReference documentRef) {
         String uuidProfessor = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-        Disciplina disciplina = new Disciplina();
-        Disponibilidade disponibilidade = new Disponibilidade();
+        Disciplina attDisciplina = new Disciplina();
+        Disponibilidade attDisponibilidade = new Disponibilidade();
 
-        disciplina.setUuid(UUID.randomUUID().toString());
-        disciplina.setNome(nomeDisciplina.getSelectedItem().toString());
-        disciplina.setUuidProfessor(uuidProfessor);
-        disponibilidade.setHoraDas(horaDas.getText().toString());
-        disponibilidade.setHoraAte(horaAte.getText().toString());
-        disponibilidade.setDiaDe(diaDe.getSelectedItem().toString());
-        disponibilidade.setDiaAte(diaAte.getSelectedItem().toString());
-        disciplina.setDisponibilidade(disponibilidade);
+        attDisciplina.setUuid(disciplina.getUuid());
+        attDisciplina.setNome(nomeDisciplina.getSelectedItem().toString());
+        attDisciplina.setUuidProfessor(uuidProfessor);
+        attDisponibilidade.setHoraDas(horaDas.getText().toString());
+        attDisponibilidade.setHoraAte(horaAte.getText().toString());
+        attDisponibilidade.setDiaDe(diaDe.getSelectedItem().toString());
+        attDisponibilidade.setDiaAte(diaAte.getSelectedItem().toString());
+        attDisciplina.setDisponibilidade(attDisponibilidade);
 
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        Query disciplinaQuery = database.collection("disciplinas")
-                .whereEqualTo("uuidProfessor", uuidProfessor)
-                .whereEqualTo("nome", disciplina.getNome());
-
-        disciplinaQuery.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult() != null) {
-                if(task.getResult().getDocuments().size() > 0) {
-                    Toast.makeText(this, "Você já cadastrou a disciplina " + disciplina.getNome() + "!", Toast.LENGTH_SHORT).show();
-                } else {
-                    database.collection("disciplinas").document(disciplina.getUuid()).set(disciplina);
-                    Toast.makeText(this, "Disciplina cadastrada com sucesso!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, Disciplinas.class));
-                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                    finish();
-                }
-            }
-        });
-
+        documentRef.set(attDisciplina);
+        // voltando para a tela de disciplinas
+        Toast.makeText(this, "Disciplina atualizada com sucesso!", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, Disciplinas.class));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        finish();
     }
 
     public void voltar(View view) {

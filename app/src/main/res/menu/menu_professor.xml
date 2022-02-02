@@ -14,10 +14,10 @@
                     android:id="@+id/disciplinasId"
                     android:icon="@drawable/ic_school_dark"
                     android:title="Minhas disciplinas"/>
-                <item
-                    android:id="@+id/avaliacoesId"
-                    android:icon="@drawable/ic_star_dark"
-                    android:title="Avaliações"/>
+<!--                <item-->
+<!--                    android:id="@+id/avaliacoesId"-->
+<!--                    android:icon="@drawable/ic_star_dark"-->
+<!--                    android:title="Avaliações"/>-->
                 <item
                     android:id="@+id/infoId"
                     android:icon="@drawable/ic_info"

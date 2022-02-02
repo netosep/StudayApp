@@ -13,7 +13,7 @@
         android:id="@+id/navView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="left"
+        android:layout_gravity="start"
         android:backgroundTint="@color/white"
         app:headerLayout="@layout/header_menu"
         app:itemIconTint="@color/text_color"
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/backgroud_main"
-            tools:context=".activity.professor.CadastroDisciplina">
+            tools:context=".activity.professor.EditarDisciplina">
 
             <View
                 android:id="@+id/tituloContainer"
@@ -78,12 +78,12 @@
                 <TextView
                     android:id="@+id/textViewTitulo"
                     style="@style/textViewTitulo"
-                    android:text="Nova disciplina" />
+                    android:text="Atualizar disciplina" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardViewForm"
-                    android:layout_height="match_parent"
                     style="@style/cardViewForm"
+                    android:layout_height="match_parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textViewTitulo">
@@ -106,7 +106,7 @@
                             <TextView
                                 android:id="@+id/textViewDisciplina"
                                 style="@style/textViewFormCadastro"
-                                android:text="Selecione a disciplina *"
+                                android:text="Nome da disciplina"
                                 tools:ignore="MissingConstraints" />
 
                             <TextView
@@ -194,7 +194,7 @@
                             style="@style/EditText"
                             android:hint="00:00"
                             android:inputType="time"
-                            android:maxLength="5"/>
+                            android:maxLength="5" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout style="@style/areaTituloInput">
 
@@ -217,7 +217,7 @@
                             style="@style/EditText"
                             android:hint="00:00"
                             android:inputType="time"
-                            android:maxLength="5"/>
+                            android:maxLength="5" />
 
                         <TextView
                             android:id="@+id/textViewCamposObg"
@@ -227,7 +227,7 @@
                         <Button
                             android:id="@+id/buttonSubmitCadastro"
                             style="@style/ButtonSubmit"
-                            android:text="Salvar Cadastro" />
+                            android:text="Atualizar Disciplina" />
 
                     </LinearLayout>
 

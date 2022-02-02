@@ -33,8 +33,10 @@
                 android:orientation="horizontal">
 
                 <androidx.constraintlayout.utils.widget.ImageFilterView
+                    android:id="@+id/imgViewProfessor"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/user"
                     app:roundPercent="1" />
 
@@ -55,39 +57,56 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/textViewDisciplina"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins"
-                        android:text="Química"
-                        android:textColor="@color/hint_color"
-                        android:textSize="15sp" />
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        tools:ignore="UseCompoundDrawables">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="17dp"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <RatingBar
-                            android:id="@+id/ratingProfessor"
-                            style="@style/Widget.AppCompat.RatingBar.Small"
-                            android:layout_width="80dp"
-                            android:layout_height="17dp"
-                            android:progressTint="@color/hint_color" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_capelo"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
-                            android:id="@+id/textViewRatingProfessor"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/textViewDisciplina"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="7dp"
+                            android:layout_marginStart="5dp"
                             android:fontFamily="@font/poppins"
-                            android:text="(3,99)"
-                            android:textColor="@color/text_color"
-                            android:textSize="11sp" />
+                            android:text="Química"
+                            android:textColor="@color/hint_color"
+                            android:textSize="15sp" />
 
                     </LinearLayout>
+
+
+                    <!--                    <LinearLayout-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="17dp"-->
+                    <!--                        android:layout_gravity="center_vertical"-->
+                    <!--                        android:orientation="horizontal">-->
+
+                    <!--                        <RatingBar-->
+                    <!--                            android:id="@+id/ratingProfessor"-->
+                    <!--                            style="@style/Widget.AppCompat.RatingBar.Small"-->
+                    <!--                            android:layout_width="80dp"-->
+                    <!--                            android:layout_height="17dp"-->
+                    <!--                            android:progressTint="@color/hint_color" />-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:id="@+id/textViewRatingProfessor"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_marginStart="7dp"-->
+                    <!--                            android:fontFamily="@font/poppins"-->
+                    <!--                            android:text="(3,99)"-->
+                    <!--                            android:textColor="@color/text_color"-->
+                    <!--                            android:textSize="11sp" />-->
+
+                    <!--                    </LinearLayout>-->
 
                 </LinearLayout>
 
@@ -168,22 +187,22 @@
 
                     <ImageButton
                         android:id="@+id/buttonFavorito"
+                        style="@style/Button"
                         android:layout_width="50dp"
-                        style="@style/NewButton"
                         android:layout_height="50dp"
                         android:backgroundTint="@color/red_danger"
-                        android:src="@drawable/ic_favorite"
+                        android:src="@drawable/ic_favorite_border"
                         tools:ignore="ContentDescription" />
 
-                    <ImageButton
-                        android:id="@+id/buttonAvaliar"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        style="@style/NewButton"
-                        android:layout_marginStart="15dp"
-                        android:backgroundTint="@color/light_blue"
-                        android:src="@drawable/ic_star_rate"
-                        tools:ignore="ContentDescription" />
+                    <!--                    <ImageButton-->
+                    <!--                        android:id="@+id/buttonAvaliar"-->
+                    <!--                        style="@style/Button"-->
+                    <!--                        android:layout_width="50dp"-->
+                    <!--                        android:layout_height="50dp"-->
+                    <!--                        android:layout_marginStart="15dp"-->
+                    <!--                        android:backgroundTint="@color/light_blue"-->
+                    <!--                        android:src="@drawable/ic_star_rate"-->
+                    <!--                        tools:ignore="ContentDescription" />-->
 
                     <LinearLayout
                         android:id="@+id/buttonWhatsapp"

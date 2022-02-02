@@ -1,9 +1,10 @@
 package com.neto.studayapp.model;
 
-import java.util.List;
-import java.util.UUID;
+import androidx.annotation.NonNull;
 
-public class Disciplina {
+import java.io.Serializable;
+
+public class Disciplina implements Serializable {
 
     private String uuid;
     private String uuidProfessor;
@@ -11,7 +12,6 @@ public class Disciplina {
     private Disponibilidade disponibilidade;
 
     public Disciplina() {
-
     }
 
     public Disciplina(String uuid, String uuidProfessor, String nome, Disponibilidade disponibilidade) {
@@ -52,4 +52,16 @@ public class Disciplina {
     public void setDisponibilidade(Disponibilidade disponibilidade) {
         this.disponibilidade = disponibilidade;
     }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Disciplina{" +
+                "uuid='" + uuid + '\'' +
+                ", uuidProfessor='" + uuidProfessor + '\'' +
+                ", nome='" + nome + '\'' +
+                ", disponibilidade=" + disponibilidade +
+                '}';
+    }
+
 }

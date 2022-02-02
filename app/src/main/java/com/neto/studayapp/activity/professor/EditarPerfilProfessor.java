@@ -16,9 +16,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
+import androidx.constraintlayout.utils.widget.ImageFilterView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthCredential;
@@ -46,7 +47,7 @@ public class EditarPerfilProfessor extends AppCompatActivity implements Navigati
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
-
+    private ImageFilterView imgPreviewMenu;
     private EditText nomeSobrenome, email, whatsapp, dataNascimento;
     private EditText valor, descricao, biografia, senha;
     private Button buttonUpdate;
@@ -95,8 +96,14 @@ public class EditarPerfilProfessor extends AppCompatActivity implements Navigati
         documentReference.addSnapshotListener((documentSnapshot, error) -> {
             if (documentSnapshot != null) {
                 String nome = documentSnapshot.getString("nomeCompleto");
-                String text = "Olá " + Objects.requireNonNull(nome).split("[ ]")[0] + "!";
-                nomeUsuario.setText(text);
+                String urlImg = documentSnapshot.getString("urlFotoPerfil");
+                if (nome != null) {
+                    String text = "Olá " + nome.split("[ ]")[0] + "!";
+                    nomeUsuario.setText(text);
+                }
+                if (urlImg != null) {
+                    Glide.with(getApplicationContext()).load(urlImg).into(imgPreviewMenu);
+                }
             }
         });
     }
@@ -122,9 +129,9 @@ public class EditarPerfilProfessor extends AppCompatActivity implements Navigati
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
                 break;
-            case R.id.avaliacoesId:
-                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
-                break;
+//            case R.id.avaliacoesId:
+//                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
+//                break;
             case R.id.infoId:
                 Toast.makeText(this, "Sobre", Toast.LENGTH_SHORT).show();
                 break;
@@ -225,6 +232,7 @@ public class EditarPerfilProfessor extends AppCompatActivity implements Navigati
         toolbar = findViewById(R.id.toobarMenu);
         View header = navigationView.getHeaderView(0);
         nomeUsuario = header.findViewById(R.id.nomeUsuarioId);
+        imgPreviewMenu = header.findViewById(R.id.imgPreviewMenu);
         // editText e spinner
         nomeSobrenome = findViewById(R.id.editTextNomeSobrenome);
         email = findViewById(R.id.editTextEmail);
@@ -298,6 +306,7 @@ public class EditarPerfilProfessor extends AppCompatActivity implements Navigati
         attProfessor.setWhatsapp(Mask.unmask(whatsapp.getText().toString()));
         attProfessor.setDataNascimento(dataNascimento.getText().toString().isEmpty() ? null : sdf.parse(dataNascimento.getText().toString()));
         attProfessor.setSexo(sexo.getSelectedItem().toString());
+        attProfessor.setUrlFotoPerfil(professor.getUrlFotoPerfil());
         attProfessor.setValorAula(Double.parseDouble(valor.getText().toString().replaceAll("[,]", ".")));
         attProfessor.setDescricao(descricao.getText().toString());
         attProfessor.setBiografia(biografia.getText().toString());

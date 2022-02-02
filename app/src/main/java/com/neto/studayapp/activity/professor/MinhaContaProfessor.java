@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
@@ -18,19 +19,28 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.neto.studayapp.R;
+import com.neto.studayapp.activity.form.FormLogin;
 import com.neto.studayapp.activity.misc.Loading;
 import com.neto.studayapp.model.Professor;
 import com.neto.studayapp.util.Mask;
@@ -47,9 +57,12 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
     private NavigationView navigationView;
     private Toolbar toolbar;
     private ImageView btnEditImage;
-    private ImageFilterView imagePreview;
-    private AppCompatButton buttonEditPerfil, buttonEditSenha;
+    private ImageFilterView imagePreview, imgPreviewMenu;
+    private AppCompatButton buttonEditPerfil, buttonEditSenha, buttonAtualizarSenha, buttonDeleteConta;
     private TextView nomeUsuario, nomeCompleto, email, whatsapp, dataNasc, valor, sexo, descricao, biografia;
+    private TextView alertSenhaAtual, alertNovaSenha, alertConfNovaSenha;
+    private EditText senhaAtual, novaSenha, confNovaSenha;
+    private Uri caminhoImg;
     private final Professor professor = new Professor();
 
     @Override
@@ -67,10 +80,15 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
         });
 
         buttonEditSenha.setOnClickListener(view -> {
-            if(listVerPerfil.getVisibility() == View.VISIBLE) {
+            if (listVerPerfil.getVisibility() == View.VISIBLE) {
                 listVerPerfil.setVisibility(View.GONE);
                 listAlterarSenha.setVisibility(View.VISIBLE);
                 buttonEditSenha.setText("Voltar");
+
+                buttonAtualizarSenha.setOnClickListener(newView -> {
+                    Toast.makeText(this, "Atualizar senha", Toast.LENGTH_SHORT).show();
+                });
+
             } else {
                 listAlterarSenha.setVisibility(View.GONE);
                 listVerPerfil.setVisibility(View.VISIBLE);
@@ -83,7 +101,32 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
                 new ActivityResultContracts.StartActivityForResult(), result -> {
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         Uri imgSelecionada = result.getData().getData();
-                        //caminhoImg = imgSelecionada;
+                        caminhoImg = imgSelecionada;
+
+                        if (caminhoImg != null) {
+                            FirebaseFirestore database = FirebaseFirestore.getInstance();
+                            String uuidProfessor = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+                            DocumentReference documentRef = database.collection("professores").document(uuidProfessor);
+                            System.out.println(documentRef.getId());
+                            StorageReference storageRef = FirebaseStorage.getInstance().getReference("imagens/" + documentRef.getId());
+
+                            storageRef.putFile(caminhoImg).continueWithTask(task -> {
+                                if (!task.isSuccessful()) {
+                                    throw Objects.requireNonNull(task.getException());
+                                }
+                                return storageRef.getDownloadUrl();
+                            }).addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Uri downloadUri = task.getResult();
+                                    documentRef.update("urlFotoPerfil", Objects.requireNonNull(downloadUri).toString());
+                                    Glide.with(MinhaContaProfessor.this).load(downloadUri).into(imgPreviewMenu);
+                                }
+                            }).addOnFailureListener(this, err -> {
+                                Toast.makeText(this, "Ocorreu um erro!", Toast.LENGTH_SHORT).show();
+                                Log.e("FirebaseDatabase", err.getMessage());
+                            });
+                        }
+
                         try {
                             // setando imagem de preview
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imgSelecionada);
@@ -99,6 +142,43 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
             Intent pickImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             intentLauncher.launch(pickImage);
         });
+
+        buttonDeleteConta.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Você tem certeza disso?");
+            builder.setMessage("Após excluir a sua conta você não terá mais " +
+                    "acesso a plataforma com a mesma e todos os seus dados serão " +
+                    "removidos do banco de dados. Ainda quer prosseguir com a ação?");
+            builder.setPositiveButton("Sim", (dialogInterface, i) -> {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                FirebaseFirestore database = FirebaseFirestore.getInstance();
+                if (user != null) {
+                    String uuidProfessor = user.getUid();
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(this, FormLogin.class));
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                    finish();
+
+                    DocumentReference profRef = database.collection("professores").document(uuidProfessor);
+                    Query discplinaQuery = database.collection("disciplinas").whereEqualTo("uuidProfessor", uuidProfessor);
+                    discplinaQuery.addSnapshotListener((value, error) -> {
+                        if(value != null) {
+                            for (DocumentChange disciplina : value.getDocumentChanges()) {
+                                String uuidDiscplina = disciplina.getDocument().getReference().getId();
+                                database.collection("disciplinas").document(uuidDiscplina).delete();
+                            }
+                        }
+                    });
+                    profRef.delete();
+                    user.delete();
+                    Toast.makeText(getApplicationContext(), "Sua conta foi excluida com sucesso!", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+            builder.setNegativeButton("Não", null);
+            AlertDialog alert = builder.create();
+            alert.show();
+        });
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -111,13 +191,21 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
         documentReference.addSnapshotListener((documentSnapshot, error) -> {
             if (documentSnapshot != null) {
                 try {
-                    setCardProfessor(documentSnapshot);
+                    if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                        setCardProfessor(documentSnapshot);
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 String nome = documentSnapshot.getString("nomeCompleto");
-                String text = "Olá " + Objects.requireNonNull(nome).split("[ ]")[0] + "!";
-                nomeUsuario.setText(text);
+                String urlImg = documentSnapshot.getString("urlFotoPerfil");
+                if (nome != null) {
+                    String text = "Olá " + nome.split("[ ]")[0] + "!";
+                    nomeUsuario.setText(text);
+                }
+                if (urlImg != null) {
+                    Glide.with(getApplicationContext()).load(urlImg).into(imgPreviewMenu);
+                }
             }
         });
     }
@@ -145,9 +233,9 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
                 break;
-            case R.id.avaliacoesId:
-                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
-                break;
+//            case R.id.avaliacoesId:
+//                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
+//                break;
             case R.id.infoId:
                 Toast.makeText(this, "Sobre", Toast.LENGTH_SHORT).show();
                 break;
@@ -171,16 +259,24 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
         sexo = findViewById(R.id.textViewSexo);
         buttonEditPerfil = findViewById(R.id.buttonEditPerfil);
         buttonEditSenha = findViewById(R.id.buttonEditSenha);
+        buttonDeleteConta = findViewById(R.id.buttonDeleteConta);
         listVerPerfil = findViewById(R.id.listPerfil);
         btnEditImage = findViewById(R.id.imgEditImage);
         imagePreview = findViewById(R.id.imageUser);
-        //listAtualizarPerfil = findViewById(R.id.);
         listAlterarSenha = findViewById(R.id.listAlterarSenha);
+        senhaAtual = findViewById(R.id.editTextSenhaAtual);
+        novaSenha = findViewById(R.id.editTextNovaSenha);
+        confNovaSenha = findViewById(R.id.editTextConfNovaSenha);
+        alertSenhaAtual = findViewById(R.id.textViewSenhaAtualAlert);
+        alertNovaSenha = findViewById(R.id.textViewNovaSenhaAlert);
+        alertConfNovaSenha = findViewById(R.id.textViewConfSenhaAlert);
+        buttonAtualizarSenha = findViewById(R.id.btnAtualizarSenha);
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navView);
         toolbar = findViewById(R.id.toobarMenu);
         View header = navigationView.getHeaderView(0);
         nomeUsuario = header.findViewById(R.id.nomeUsuarioId);
+        imgPreviewMenu = header.findViewById(R.id.imgPreviewMenu);
         iniciarMenu();
     }
 
@@ -207,6 +303,7 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
         professor.setSexo(ds.getString("sexo"));
         professor.setDescricao(ds.getString("descricao"));
         professor.setBiografia(ds.getString("biografia"));
+        professor.setUrlFotoPerfil(ds.getString("urlFotoPerfil"));
         // carregando dados na view
         nomeCompleto.setText(professor.getNomeCompleto());
         email.setText(professor.getEmail());
@@ -216,6 +313,7 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
         sexo.setText(professor.getSexo());
         descricao.setText(professor.getDescricao().isEmpty() ? "--" : professor.getDescricao());
         biografia.setText(professor.getBiografia());
+        Glide.with(getApplicationContext()).load(professor.getUrlFotoPerfil()).into(imagePreview);
     }
 
     public void voltar(View view) {

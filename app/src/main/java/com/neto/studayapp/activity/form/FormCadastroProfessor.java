@@ -86,7 +86,6 @@ public class FormCadastroProfessor extends AppCompatActivity {
         valor = findViewById(R.id.editTextValor);
         descricao = findViewById(R.id.editTextDescricao);
         biografia = findViewById(R.id.editTextBiografia);
-        // foto de perfil
         senha = findViewById(R.id.editTextSenha);
         confirmSenha = findViewById(R.id.editTextConfSenha);
         buttonSubmit = findViewById(R.id.buttonSubmitCadastro);
@@ -216,13 +215,15 @@ public class FormCadastroProfessor extends AppCompatActivity {
         Professor professor = new Professor();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         professor.setNomeCompleto(nomeSobrenome.getText().toString());
+        professor.setEmail(email.getText().toString());
         professor.setWhatsapp(Mask.unmask(whatsapp.getText().toString()));
         professor.setDataNascimento(dataNascimento.getText().toString().isEmpty() ? null : sdf.parse(dataNascimento.getText().toString()));
         professor.setSexo(sexo.getSelectedItem().toString());
         professor.setValorAula(Double.parseDouble(valor.getText().toString().replaceAll("[,]", ".")));
         professor.setDescricao(descricao.getText().toString());
         professor.setBiografia(biografia.getText().toString());
-        //professor.setUrlFotoPerfil();
+        professor.setUrlFotoPerfil("https://firebasestorage.googleapis.com/v0/b/" +
+                "studay-a5882.appspot.com/o/imagens%2Fuser.png?alt=media&token=d8bc6c2e-ca23-41b0-8d6d-02907fbd5509");
         professor.setNivelAcesso(2);
 
         String emailString = email.getText().toString();

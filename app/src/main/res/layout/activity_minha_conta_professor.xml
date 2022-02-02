@@ -434,7 +434,7 @@
                                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                                 <EditText
-                                    android:id="@+id/editTextNomeSobrenome"
+                                    android:id="@+id/editTextConfNovaSenha"
                                     style="@style/EditText"
                                     android:layout_marginStart="0dp"
                                     android:layout_marginEnd="0dp"
@@ -444,7 +444,8 @@
                                     tools:ignore="Autofill,HardcodedText" />
 
                                 <androidx.appcompat.widget.AppCompatButton
-                                    style="@style/NewButton"
+                                    android:id="@+id/btnAtualizarSenha"
+                                    style="@style/Button"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="0dp"

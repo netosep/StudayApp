@@ -1,12 +1,14 @@
 package com.neto.studayapp.model;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public class Aluno implements Serializable {
 
+    private String uuidAluno;
     private String nomeCompleto;
     private String whatsapp;
     private Date dataNascimento;
@@ -23,6 +25,14 @@ public class Aluno implements Serializable {
     }
 
     public Aluno() {}
+
+    public String getUuidAluno() {
+        return uuidAluno;
+    }
+
+    public void setUuidAluno(String uuidAluno) {
+        this.uuidAluno = uuidAluno;
+    }
 
     public String getNomeCompleto() {
         return nomeCompleto;
@@ -54,5 +64,18 @@ public class Aluno implements Serializable {
 
     public void setNivelAcesso(int nivelAcesso) {
         this.nivelAcesso = nivelAcesso;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Aluno{" +
+                "uuidAluno='" + uuidAluno + '\'' +
+                ", nomeCompleto='" + nomeCompleto + '\'' +
+                ", whatsapp='" + whatsapp + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", nivelAcesso=" + nivelAcesso +
+                ", professoresFavoritos=" + professoresFavoritos +
+                '}';
     }
 }

@@ -1,6 +1,8 @@
 package com.neto.studayapp.model;
 
-public class Disponibilidade {
+import java.io.Serializable;
+
+public class Disponibilidade implements Serializable {
 
     private String diaDe;
     private String diaAte;

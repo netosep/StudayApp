@@ -11,8 +11,10 @@
     android:paddingBottom="15dp">
 
     <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/imgPreviewMenu"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/user"
         app:roundPercent="1" />
 

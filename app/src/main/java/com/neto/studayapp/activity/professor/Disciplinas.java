@@ -2,25 +2,24 @@ package com.neto.studayapp.activity.professor;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.utils.widget.ImageFilterButton;
+import androidx.constraintlayout.utils.widget.ImageFilterView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -38,17 +37,15 @@ import java.util.Objects;
 
 public class Disciplinas extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    Toolbar toolbar;
-    TextView nomeUsuario, disciplinasVazio;
-    View header;
-    ImageFilterButton addDisciplina;
-
-    List<Disciplina> disciplinas;
-    RecyclerView recyclerView;
-    DisciplinaAdapter disciplinaAdapter;
-    FirebaseFirestore database;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
+    private SearchView searchView;
+    private TextView nomeUsuario, disciplinasVazio;
+    private ImageFilterView imgPreviewMenu;
+    private List<Disciplina> disciplinas;
+    private RecyclerView recyclerView;
+    private DisciplinaAdapter disciplinaAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +53,25 @@ public class Disciplinas extends AppCompatActivity implements NavigationView.OnN
         setContentView(R.layout.activity_disciplinas);
         iniciarComponentes();
         carregarRecyclerView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                List<Disciplina> disciplinaFilterList = new ArrayList<>();
+                for (Disciplina disciplina : disciplinas) {
+                    if(disciplina.getNome().toLowerCase().contains(newText.toLowerCase())) {
+                        disciplinaFilterList.add(disciplina);
+                    }
+                }
+                disciplinaAdapter.filtrarDalista(disciplinaFilterList);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -67,8 +83,14 @@ public class Disciplinas extends AppCompatActivity implements NavigationView.OnN
         documentReference.addSnapshotListener((documentSnapshot, error) -> {
             if (documentSnapshot != null) {
                 String nome = documentSnapshot.getString("nomeCompleto");
-                String text = "Olá " + Objects.requireNonNull(nome).split("[ ]")[0] + "!";
-                nomeUsuario.setText(text);
+                String urlImg = documentSnapshot.getString("urlFotoPerfil");
+                if (nome != null) {
+                    String text = "Olá " + nome.split("[ ]")[0] + "!";
+                    nomeUsuario.setText(text);
+                }
+                if (urlImg != null) {
+                    Glide.with(getApplicationContext()).load(urlImg).into(imgPreviewMenu);
+                }
             }
         });
     }
@@ -94,9 +116,9 @@ public class Disciplinas extends AppCompatActivity implements NavigationView.OnN
             case R.id.disciplinasId:
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
-            case R.id.avaliacoesId:
-                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
-                break;
+//            case R.id.avaliacoesId:
+//                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
+//                break;
             case R.id.infoId:
                 Toast.makeText(this, "Sobre", Toast.LENGTH_SHORT).show();
                 break;
@@ -113,9 +135,10 @@ public class Disciplinas extends AppCompatActivity implements NavigationView.OnN
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navView);
         toolbar = findViewById(R.id.toobarMenu);
-        header = navigationView.getHeaderView(0);
+        View header = navigationView.getHeaderView(0);
+        imgPreviewMenu = header.findViewById(R.id.imgPreviewMenu);
         nomeUsuario = header.findViewById(R.id.nomeUsuarioId);
-        addDisciplina = findViewById(R.id.addDisciplinaId);
+        searchView = findViewById(R.id.searchViewDisciplina);
         recyclerView = findViewById(R.id.recViewDisciplinas);
         disciplinasVazio = findViewById(R.id.textViewDisciplinasVazio);
         iniciarMenu();
@@ -134,11 +157,13 @@ public class Disciplinas extends AppCompatActivity implements NavigationView.OnN
     private void carregarRecyclerView() {
 
         String uuidProfessor = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        database = FirebaseFirestore.getInstance();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this){
+            @Override public boolean canScrollVertically() { return false; }
+        });
         disciplinas = new ArrayList<>();
-        disciplinaAdapter = new DisciplinaAdapter(disciplinas);
+        disciplinaAdapter = new DisciplinaAdapter(disciplinas, this);
         recyclerView.setAdapter(disciplinaAdapter);
 
         Query query = database.collection("disciplinas").whereEqualTo("uuidProfessor", uuidProfessor);
