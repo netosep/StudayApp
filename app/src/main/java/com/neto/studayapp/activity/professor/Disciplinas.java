@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +42,8 @@ public class Disciplinas extends AppCompatActivity implements NavigationView.OnN
     private NavigationView navigationView;
     private Toolbar toolbar;
     private SearchView searchView;
-    private TextView nomeUsuario, disciplinasVazio;
+    private TextView nomeUsuario;
+    private LinearLayout empytLayout;
     private ImageFilterView imgPreviewMenu;
     private List<Disciplina> disciplinas;
     private RecyclerView recyclerView;
@@ -120,7 +122,7 @@ public class Disciplinas extends AppCompatActivity implements NavigationView.OnN
 //                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
 //                break;
             case R.id.infoId:
-                Toast.makeText(this, "Sobre", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "App Studay | Versão: 1.0", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.sairId:
                 deslogar();
@@ -140,7 +142,7 @@ public class Disciplinas extends AppCompatActivity implements NavigationView.OnN
         nomeUsuario = header.findViewById(R.id.nomeUsuarioId);
         searchView = findViewById(R.id.searchViewDisciplina);
         recyclerView = findViewById(R.id.recViewDisciplinas);
-        disciplinasVazio = findViewById(R.id.textViewDisciplinasVazio);
+        empytLayout = findViewById(R.id.empytLayout);
         iniciarMenu();
     }
 
@@ -166,25 +168,28 @@ public class Disciplinas extends AppCompatActivity implements NavigationView.OnN
         disciplinaAdapter = new DisciplinaAdapter(disciplinas, this);
         recyclerView.setAdapter(disciplinaAdapter);
 
-        Query query = database.collection("disciplinas").whereEqualTo("uuidProfessor", uuidProfessor);
+        Query query = database.collection("disciplinas")
+                .whereEqualTo("uuidProfessor", uuidProfessor);
         query.addSnapshotListener((value, error) -> {
             if (value != null) {
                 if (value.isEmpty()) {
-                    recyclerView.setVisibility(View.INVISIBLE);
-                    disciplinasVazio.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                    empytLayout.setVisibility(View.VISIBLE);
                 } else {
-                    disciplinasVazio.setVisibility(View.INVISIBLE);
+                    empytLayout.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
-                }
-                for (DocumentChange dc : value.getDocumentChanges()) {
-                    if (dc.getType() == DocumentChange.Type.ADDED) {
-                        disciplinas.add(dc.getDocument().toObject(Disciplina.class));
+
+                    for (DocumentChange dc : value.getDocumentChanges()) {
+                        if (dc.getType() == DocumentChange.Type.ADDED) {
+                            disciplinas.add(dc.getDocument().toObject(Disciplina.class));
+                        }
+                        if (dc.getType() == DocumentChange.Type.REMOVED) {
+                            disciplinas.remove(dc.getDocument().toObject(Disciplina.class));
+                        }
+                        disciplinaAdapter.notifyDataSetChanged();
                     }
-                    if (dc.getType() == DocumentChange.Type.REMOVED) {
-                        disciplinas.remove(dc.getDocument().toObject(Disciplina.class));
-                    }
-                    disciplinaAdapter.notifyDataSetChanged();
                 }
+
             }
             if (error != null) {
                 System.out.println(error.getMessage());

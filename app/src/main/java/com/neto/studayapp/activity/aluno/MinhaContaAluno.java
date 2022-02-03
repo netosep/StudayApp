@@ -4,7 +4,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.utils.widget.ImageFilterView;
 import androidx.core.view.GravityCompat;
@@ -25,11 +27,14 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.neto.studayapp.R;
+import com.neto.studayapp.activity.form.FormLogin;
 import com.neto.studayapp.activity.misc.Loading;
+import com.neto.studayapp.activity.professor.EditarPerfilProfessor;
 import com.neto.studayapp.model.Aluno;
 import com.neto.studayapp.util.Mask;
 
@@ -45,6 +50,7 @@ public class MinhaContaAluno extends AppCompatActivity implements NavigationView
     private TextView nomeUsuario, nomeCompleto, email, whatsapp, dataNasc;
     private ImageView btnEditImage;
     private ImageFilterView imagePreview;
+    private AppCompatButton btnEditPerfil, btnEditSenha, btnDeleteConta;
     private final Aluno aluno = new Aluno();
 
     @Override
@@ -52,7 +58,6 @@ public class MinhaContaAluno extends AppCompatActivity implements NavigationView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_minha_conta_aluno);
         iniciarComponentes();
-
 
         // add imagem
         ActivityResultLauncher<Intent> intentLauncher = registerForActivityResult(
@@ -75,6 +80,58 @@ public class MinhaContaAluno extends AppCompatActivity implements NavigationView
             Intent pickImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             intentLauncher.launch(pickImage);
         });
+
+        btnEditPerfil.setOnClickListener(view -> {
+            //Toast.makeText(this, "edit", Toast.LENGTH_SHORT).show();
+            //System.out.println(aluno.toString());
+            Intent intent = new Intent(this, EditarPerfilAluno.class);
+            intent.putExtra("aluno", aluno);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            finish();
+        });
+
+        btnEditSenha.setOnClickListener(view -> {
+            Toast.makeText(this, "senha", Toast.LENGTH_SHORT).show();
+        });
+
+        btnDeleteConta.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Você tem certeza disso?");
+            builder.setMessage("Após excluir a sua conta você não terá mais " +
+                    "acesso a plataforma com a mesma e todos os seus dados serão " +
+                    "removidos do banco de dados. Ainda quer prosseguir com a ação?");
+            builder.setPositiveButton("Sim", (dialogInterface, i) -> {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                FirebaseFirestore database = FirebaseFirestore.getInstance();
+                if (user != null) {
+                    String uuidAluno = user.getUid();
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(this, FormLogin.class));
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                    finish();
+
+                    DocumentReference alunoRef = database.collection("professores").document(uuidAluno);
+//                    Query discplinaQuery = database.collection("disciplinas").whereEqualTo("uuidProfessor", uuidProfessor);
+//                    discplinaQuery.addSnapshotListener((value, error) -> {
+//                        if(value != null) {
+//                            for (DocumentChange disciplina : value.getDocumentChanges()) {
+//                                String uuidDiscplina = disciplina.getDocument().getReference().getId();
+//                                database.collection("disciplinas").document(uuidDiscplina).delete();
+//                            }
+//                        }
+//                    });
+                    alunoRef.delete();
+                    user.delete();
+                    Toast.makeText(getApplicationContext(), "Sua conta foi excluida com sucesso!", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+            builder.setNegativeButton("Não", null);
+            AlertDialog alert = builder.create();
+            alert.show();
+        });
+
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -131,7 +188,7 @@ public class MinhaContaAluno extends AppCompatActivity implements NavigationView
 //                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
 //                break;
             case R.id.infoId:
-                Toast.makeText(this, "Sobre", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "App Studay | Versão: 1.0", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.sairId:
                 deslogar();
@@ -147,20 +204,17 @@ public class MinhaContaAluno extends AppCompatActivity implements NavigationView
         String emailString = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         // populando o objeto aluno
+        aluno.setUuidAluno(FirebaseAuth.getInstance().getCurrentUser().getUid());
         aluno.setNomeCompleto(ds.getString("nomeCompleto"));
+        aluno.setEmail(emailString);
         aluno.setWhatsapp(ds.getString("whatsapp"));
         aluno.setDataNascimento(ds.getDate("dataNascimento"));
+        aluno.setNivelAcesso(1);
         // carredando dados na view
         nomeCompleto.setText(aluno.getNomeCompleto());
         email.setText(emailString);
         whatsapp.setText(aluno.getWhatsapp() == null ? "--" : Mask.maskCelular(aluno.getWhatsapp()));
         dataNasc.setText(aluno.getDataNascimento() == null ? "--" : sdf.format(aluno.getDataNascimento()));
-    }
-
-    public void voltar(View view) {
-        startActivity(new Intent(MinhaContaAluno.this, Professores.class));
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-        finish();
     }
 
     public void iniciarComponentes() {
@@ -175,6 +229,9 @@ public class MinhaContaAluno extends AppCompatActivity implements NavigationView
         email = findViewById(R.id.textViewEmail);
         whatsapp = findViewById(R.id.textViewWhatsapp);
         dataNasc = findViewById(R.id.textViewDataNasc);
+        btnEditPerfil = findViewById(R.id.buttonEditPerfil);
+        btnEditSenha = findViewById(R.id.buttonEditSenha);
+        btnDeleteConta = findViewById(R.id.buttonDeleteConta);
         iniciarMenu();
     }
 
@@ -185,6 +242,12 @@ public class MinhaContaAluno extends AppCompatActivity implements NavigationView
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(MinhaContaAluno.this);
+    }
+
+    public void voltar(View view) {
+        startActivity(new Intent(MinhaContaAluno.this, Professores.class));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        finish();
     }
 
     private void deslogar() {

@@ -43,8 +43,12 @@ public class FormLogin extends AppCompatActivity {
         iniciarComponentes();
 
         buttonSubmit.setOnClickListener(view -> {
-            if (formularioIsValid()) fazerLogin();
-            buttonSubmit.setEnabled(false);
+            if (formularioIsValid()) {
+                fazerLogin();
+                buttonSubmit.setEnabled(false);
+            } else {
+                buttonSubmit.setEnabled(true);
+            }
         });
 
         textTelaCadastro.setOnClickListener(view -> {

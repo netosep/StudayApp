@@ -120,7 +120,7 @@ public class Professores extends AppCompatActivity implements NavigationView.OnN
 //                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
 //                break;
             case R.id.infoId:
-                Toast.makeText(this, "Sobre", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "App Studay | Versão: 1.0", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.sairId:
                 deslogar();
@@ -168,33 +168,42 @@ public class Professores extends AppCompatActivity implements NavigationView.OnN
 
         database.collection("professores").addSnapshotListener((ssProfessores, errorProfessor) -> {
             if (ssProfessores != null) {
-                for (DocumentChange dcProfessor : ssProfessores.getDocumentChanges()) {
-                    // professores
-                    if (dcProfessor.getType() == DocumentChange.Type.ADDED) {
-                        professores.add(dcProfessor.getDocument().toObject(Professor.class));
-                    }
-                    if (dcProfessor.getType() == DocumentChange.Type.REMOVED) {
-                        professores.remove(dcProfessor.getDocument().toObject(Professor.class));
-                    }
-
-                    String uuidProfessor = Objects.requireNonNull(dcProfessor.getDocument().get("uuidProfessor")).toString();
-                    Query professorQuery = database.collection("disciplinas").whereEqualTo("uuidProfessor", uuidProfessor);
-                    professorQuery.addSnapshotListener((ssDisciplinas, errorDisciplina) -> {
-                        if (ssDisciplinas != null) {
-                            for (DocumentChange dcDisciplina : ssDisciplinas.getDocumentChanges()) {
-                                // disciplinas
-                                if (dcDisciplina.getType() == DocumentChange.Type.ADDED) {
-                                    disciplinas.add(dcDisciplina.getDocument().toObject(Disciplina.class));
-                                }
-                                if (dcDisciplina.getType() == DocumentChange.Type.REMOVED) {
-                                    disciplinas.remove(dcDisciplina.getDocument().toObject(Disciplina.class));
-                                }
-                                professorAdapter.notifyDataSetChanged();
-                            }
+                if (ssProfessores.getDocuments().size() == 0) {
+                    recyclerView.setVisibility(View.GONE);
+                    cardSemProfessores.setVisibility(View.VISIBLE);
+                } else {
+                    cardSemProfessores.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    for (DocumentChange dcProfessor : ssProfessores.getDocumentChanges()) {
+                        // professores
+                        if (dcProfessor.getType() == DocumentChange.Type.ADDED) {
+                            professores.add(dcProfessor.getDocument().toObject(Professor.class));
                         }
-                    });
+                        if (dcProfessor.getType() == DocumentChange.Type.REMOVED) {
+                            professores.remove(dcProfessor.getDocument().toObject(Professor.class));
+                        }
+                        professorAdapter.notifyDataSetChanged();
 
+                        String uuidProfessor = Objects.requireNonNull(dcProfessor.getDocument().get("uuidProfessor")).toString();
+                        Query professorQuery = database.collection("disciplinas").whereEqualTo("uuidProfessor", uuidProfessor);
+                        professorQuery.addSnapshotListener((ssDisciplinas, errorDisciplina) -> {
+                            if (ssDisciplinas != null) {
+                                for (DocumentChange dcDisciplina : ssDisciplinas.getDocumentChanges()) {
+                                    // disciplinas
+                                    if (dcDisciplina.getType() == DocumentChange.Type.ADDED) {
+                                        disciplinas.add(dcDisciplina.getDocument().toObject(Disciplina.class));
+                                    }
+                                    if (dcDisciplina.getType() == DocumentChange.Type.REMOVED) {
+                                        disciplinas.remove(dcDisciplina.getDocument().toObject(Disciplina.class));
+                                    }
+                                    professorAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        });
+
+                    }
                 }
+
             }
         });
 

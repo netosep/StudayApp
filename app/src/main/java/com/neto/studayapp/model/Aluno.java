@@ -10,12 +10,10 @@ public class Aluno implements Serializable {
 
     private String uuidAluno;
     private String nomeCompleto;
+    private String email;
     private String whatsapp;
     private Date dataNascimento;
     private int nivelAcesso;
-
-    // ver sobre favoritos
-    private List<Favorito> professoresFavoritos;
 
     public Aluno(String nomeCompleto, String whatsapp, Date dataNascimento, int nivelAcesso) {
         this.nomeCompleto = nomeCompleto;
@@ -24,7 +22,8 @@ public class Aluno implements Serializable {
         this.nivelAcesso = nivelAcesso;
     }
 
-    public Aluno() {}
+    public Aluno() {
+    }
 
     public String getUuidAluno() {
         return uuidAluno;
@@ -40,6 +39,14 @@ public class Aluno implements Serializable {
 
     public void setNomeCompleto(String nomeCompleto) {
         this.nomeCompleto = nomeCompleto;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getWhatsapp() {
@@ -72,10 +79,10 @@ public class Aluno implements Serializable {
         return "Aluno{" +
                 "uuidAluno='" + uuidAluno + '\'' +
                 ", nomeCompleto='" + nomeCompleto + '\'' +
+                ", email='" + email + '\'' +
                 ", whatsapp='" + whatsapp + '\'' +
                 ", dataNascimento=" + dataNascimento +
                 ", nivelAcesso=" + nivelAcesso +
-                ", professoresFavoritos=" + professoresFavoritos +
                 '}';
     }
 }

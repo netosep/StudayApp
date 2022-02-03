@@ -32,11 +32,9 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.neto.studayapp.R;
@@ -87,6 +85,8 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
 
                 buttonAtualizarSenha.setOnClickListener(newView -> {
                     Toast.makeText(this, "Atualizar senha", Toast.LENGTH_SHORT).show();
+
+
                 });
 
             } else {
@@ -160,15 +160,15 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
                     finish();
 
                     DocumentReference profRef = database.collection("professores").document(uuidProfessor);
-                    Query discplinaQuery = database.collection("disciplinas").whereEqualTo("uuidProfessor", uuidProfessor);
-                    discplinaQuery.addSnapshotListener((value, error) -> {
-                        if(value != null) {
-                            for (DocumentChange disciplina : value.getDocumentChanges()) {
-                                String uuidDiscplina = disciplina.getDocument().getReference().getId();
-                                database.collection("disciplinas").document(uuidDiscplina).delete();
-                            }
-                        }
-                    });
+//                    Query discplinaQuery = database.collection("disciplinas").whereEqualTo("uuidProfessor", uuidProfessor);
+//                    discplinaQuery.addSnapshotListener((value, error) -> {
+//                        if(value != null) {
+//                            for (DocumentChange disciplina : value.getDocumentChanges()) {
+//                                String uuidDiscplina = disciplina.getDocument().getReference().getId();
+//                                database.collection("disciplinas").document(uuidDiscplina).delete();
+//                            }
+//                        }
+//                    });
                     profRef.delete();
                     user.delete();
                     Toast.makeText(getApplicationContext(), "Sua conta foi excluida com sucesso!", Toast.LENGTH_SHORT).show();
@@ -237,7 +237,7 @@ public class MinhaContaProfessor extends AppCompatActivity implements Navigation
 //                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
 //                break;
             case R.id.infoId:
-                Toast.makeText(this, "Sobre", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "App Studay | Versão: 1.0", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.sairId:
                 deslogar();

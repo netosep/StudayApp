@@ -133,7 +133,7 @@ public class EditarPerfilProfessor extends AppCompatActivity implements Navigati
 //                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
 //                break;
             case R.id.infoId:
-                Toast.makeText(this, "Sobre", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "App Studay | Versão: 1.0", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.sairId:
                 deslogar();

@@ -117,6 +117,9 @@ public class CadastroDisciplina extends AppCompatActivity implements NavigationV
 //            case R.id.avaliacoesId:
 //                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
 //                break;
+            case R.id.infoId:
+                Toast.makeText(this, "App Studay | Versão: 1.0", Toast.LENGTH_SHORT).show();
+                break;
             case R.id.sairId:
                 deslogar();
                 break;

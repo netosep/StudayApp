@@ -155,6 +155,7 @@ public class FormCadastroAluno extends AppCompatActivity {
         Aluno aluno = new Aluno();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         aluno.setNomeCompleto(nomeSobrenome.getText().toString());
+        aluno.setEmail(email.getText().toString());
         aluno.setWhatsapp(whatsapp.getText().toString().isEmpty() ? null : Mask.unmask(whatsapp.getText().toString()));
         aluno.setDataNascimento(dataNascimento.getText().toString().isEmpty() ? null : sdf.parse(dataNascimento.getText().toString()));
         aluno.setNivelAcesso(1);
@@ -169,6 +170,7 @@ public class FormCadastroAluno extends AppCompatActivity {
                 // criando uma collection para um aluno no banco
                 FirebaseFirestore database = FirebaseFirestore.getInstance();
                 FirebaseUser user = Objects.requireNonNull(authResultTask.getResult()).getUser();
+                aluno.setUuidAluno(Objects.requireNonNull(user).getUid());
                 DocumentReference df = database.collection("alunos").document(Objects.requireNonNull(user).getUid());
                 // definindo uma coleção "Aluno" no banco
                 df.set(aluno);

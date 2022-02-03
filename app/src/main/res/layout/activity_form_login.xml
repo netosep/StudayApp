@@ -90,12 +90,9 @@
             <EditText
                 android:id="@+id/editTextEmail"
                 style="@style/EditText"
-
                 android:hint="@string/email_email_com"
-
                 android:inputType="textEmailAddress"
                 android:maxLength="30"
-                android:text="neto@email.com"
                 android:textAlignment="center" />
 
             <androidx.constraintlayout.widget.ConstraintLayout style="@style/layoutTextViewFormLogin">
@@ -128,11 +125,8 @@
             <EditText
                 android:id="@+id/editTextSenha"
                 style="@style/EditText"
-
                 android:hint="@string/password_hint"
-
                 android:inputType="textPassword"
-                android:text="555555"
                 android:textAlignment="center" />
 
             <Button

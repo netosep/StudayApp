@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class Favoritos extends AppCompatActivity implements NavigationView.OnNav
     Toolbar toolbar;
     TextView nomeUsuario;
     View header;
+    LinearLayout empytLayout;
 
     List<Favorito> favoritos;
     RecyclerView recyclerView;
@@ -100,7 +102,7 @@ public class Favoritos extends AppCompatActivity implements NavigationView.OnNav
 //                Toast.makeText(this, "Avaliações", Toast.LENGTH_SHORT).show();
 //                break;
             case R.id.infoId:
-                Toast.makeText(this, "Sobre", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "App Studay | Versão: 1.0", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.sairId:
                 deslogar();
@@ -118,6 +120,7 @@ public class Favoritos extends AppCompatActivity implements NavigationView.OnNav
         header = navigationView.getHeaderView(0);
         nomeUsuario = header.findViewById(R.id.nomeUsuarioId);
         recyclerView = findViewById(R.id.recViewFavoritos);
+        empytLayout = findViewById(R.id.empytLayout);
         // add vazio
         iniciarMenu();
     }
@@ -147,15 +150,23 @@ public class Favoritos extends AppCompatActivity implements NavigationView.OnNav
         Query query = database.collection("favoritos").whereEqualTo("uuidAluno", uuidAluno);
         query.addSnapshotListener((value, error) -> {
            if (value != null) {
-               for (DocumentChange dc : value.getDocumentChanges()) {
-                   if (dc.getType() == DocumentChange.Type.ADDED) {
-                       favoritos.add(dc.getDocument().toObject(Favorito.class));
-                       //System.out.println(favoritos.get(0).getProfessor().toString());
+               if (value.getDocuments().size() == 0) {
+                   recyclerView.setVisibility(View.GONE);
+                   empytLayout.setVisibility(View.VISIBLE);
+               } else {
+                   empytLayout.setVisibility(View.GONE);
+                   recyclerView.setVisibility(View.VISIBLE);
+
+                   for (DocumentChange dc : value.getDocumentChanges()) {
+                       if (dc.getType() == DocumentChange.Type.ADDED) {
+                           favoritos.add(dc.getDocument().toObject(Favorito.class));
+                           //System.out.println(favoritos.get(0).getProfessor().toString());
+                       }
+                       if (dc.getType() == DocumentChange.Type.REMOVED) {
+                           favoritos.remove(dc.getDocument().toObject(Favorito.class));
+                       }
+                       favoritosAdapter.notifyDataSetChanged();
                    }
-                   if (dc.getType() == DocumentChange.Type.REMOVED) {
-                       favoritos.remove(dc.getDocument().toObject(Favorito.class));
-                   }
-                   favoritosAdapter.notifyDataSetChanged();
                }
            }
            if (error != null) {

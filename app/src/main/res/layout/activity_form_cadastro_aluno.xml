@@ -40,16 +40,6 @@
             app:layout_constraintStart_toStartOf="@id/topIcones"
             app:layout_constraintTop_toTopOf="@id/topIcones" />
 
-        <!--    <androidx.constraintlayout.utils.widget.ImageFilterButton-->
-        <!--        android:id="@+id/imgMenu"-->
-        <!--        android:layout_width="35dp"-->
-        <!--        android:layout_height="35dp"-->
-        <!--        android:scaleType="fitCenter"-->
-        <!--        android:backgroundTint="@color/light_green"-->
-        <!--        android:src="@drawable/ic_menu"-->
-        <!--        app:layout_constraintTop_toTopOf="@id/topIcones"-->
-        <!--        app:layout_constraintEnd_toEndOf="@id/topIcones" />-->
-
         <TextView
             android:id="@+id/textViewTitulo"
             android:layout_width="match_parent"

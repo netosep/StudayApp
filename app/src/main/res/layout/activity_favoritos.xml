@@ -97,11 +97,51 @@
                         android:orientation="vertical"
                         android:padding="15dp">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recViewFavoritos"
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_height="match_parent">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recViewFavoritos"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                tools:ignore="MissingConstraints" />
+
+
+                            <LinearLayout
+                                android:id="@+id/empytLayout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="55dp"
+                                android:visibility="gone"
+                                android:orientation="vertical"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="UseCompoundDrawables">
+
+                                <TextView
+                                    android:id="@+id/textViewDisciplinasVazio"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/nunito_sans"
+                                    android:text="-- Nada para mostrar --"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/hint_color"
+                                    android:textSize="20sp" />
+
+                                <ImageView
+                                    android:layout_width="130dp"
+                                    android:layout_height="130dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="15dp"
+                                    android:src="@drawable/ic_present"
+                                    tools:ignore="ContentDescription" />
+
+                            </LinearLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </LinearLayout>
 
