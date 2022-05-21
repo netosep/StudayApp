@@ -5,9 +5,9 @@
 
 <div align="center">
   <p>Uma pequena plataforma para encontro entre aluno e professor para aulas de reforço ou aulas particulares 📚</p>
-  <img alt="License" src="https://img.shields.io/github/license/netosep/StudayApp?color=blue&logo=apache&logoColor=orange">
-  <img alt="Language" src="https://img.shields.io/github/languages/top/netosep/StudayApp?color=blue&logo=java&logoColor=orange">
-  <img alt="Stars" src="https://img.shields.io/github/stars/netosep/StudayApp?logo=github">
+  <img src="https://img.shields.io/github/license/netosep/StudayApp?color=blue&logo=apache&logoColor=orange">
+  <img src="https://img.shields.io/github/languages/top/netosep/StudayApp?color=blue&logo=java&logoColor=orange">
+  <img src="https://img.shields.io/github/stars/netosep/StudayApp?logo=github">
 </div>
 
 #
